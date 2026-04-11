@@ -1,0 +1,45 @@
+{
+  "name": "@clover/std",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "types", "README.md"],
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./guard": {
+      "types": "./types/guard/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./number": {
+      "types": "./types/number/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./object": {
+      "types": "./types/object/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./result": {
+      "types": "./types/result/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./string": {
+      "types": "./types/string/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:types",
+    "build:js": "esbuild src/index.ts --bundle --format=esm --platform=node --target=es2023 --packages=external --outfile=dist/index.js",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly --outDir types --tsBuildInfoFile types/.tsbuildinfo",
+    "clean": "node ../../scripts/clean-dist.mjs dist types",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@clover/protocol": "workspace:*"
+  }
+}

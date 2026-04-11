@@ -1,0 +1,26 @@
+{
+  "name": "@clover/example-url-normalizer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm run build:js && pnpm run build:types",
+    "build:js": "esbuild src/index.ts src/cli.ts --format=esm --platform=node --target=es2023 --packages=external --outdir=dist --outbase=src",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node ./dist/cli.js"
+  },
+  "dependencies": {
+    "@clover/protocol": "workspace:*",
+    "@clover/std": "workspace:*"
+  }
+}
