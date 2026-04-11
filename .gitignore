@@ -1,6 +1,8 @@
 node_modules/
+.pnpm-store/
 dist/
 coverage/
 .vitest/
 *.tsbuildinfo
-
+packages/*/src/**/*.js
+packages/*/src/**/*.d.ts

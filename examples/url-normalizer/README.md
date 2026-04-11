@@ -21,15 +21,16 @@
 
 ```powershell
 pnpm run build
-pnpm run example:url-normalizer:install
-pnpm run example:url-normalizer -- "https://Example.com:443/docs?q=1"
-pnpm run example:url-normalizer -- --bench 200000
+pnpm --dir examples/url-normalizer install --ignore-workspace
+pnpm --dir examples/url-normalizer run build
+pnpm --dir examples/url-normalizer run start -- "https://Example.com:443/docs?q=1"
+pnpm --dir examples/url-normalizer run start -- --bench 200000
 ```
 
 只运行这个独立示例项目：
 
 ```powershell
-pnpm --dir examples/url-normalizer install
+pnpm --dir examples/url-normalizer install --ignore-workspace
 pnpm --dir examples/url-normalizer run build
 pnpm --dir examples/url-normalizer run start -- "http://localhost:8080/path?debug=1"
 pnpm --dir examples/url-normalizer run start -- --bench 200000

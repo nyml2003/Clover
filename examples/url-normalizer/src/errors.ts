@@ -1,4 +1,4 @@
-import { createError, type CloverError } from "@clover/protocol";
+import { createError, type CloverError } from "./_clover/protocol.js";
 
 export const UrlNormalizeErrorCode = {
   InvalidUrl: 3001

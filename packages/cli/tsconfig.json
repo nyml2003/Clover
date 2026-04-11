@@ -1,7 +1,9 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../packages/tsconfig/node-cli.json",
   "compilerOptions": {
     "rootDir": "src",
+    "declaration": true,
+    "composite": true,
     "declarationDir": "types",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/.tsbuildinfo"

@@ -1,31 +1,19 @@
 {
+  "extends": "./packages/tsconfig/library.json",
   "compilerOptions": {
-    "target": "ES2023",
-    "lib": [
-      "ES2023"
-    ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "useUnknownInCatchVariables": true,
-    "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
-    "noUncheckedSideEffectImports": true,
-    "declaration": true,
-    "composite": true,
-    "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
     "paths": {
-      "@clover/protocol": ["packages/protocol/src/index.ts"],
-      "@clover/std": ["packages/std/src/index.ts"],
-      "@clover/zod": ["packages/zod/src/index.ts"],
-      "@clover/cli": ["packages/cli/src/index.ts"]
+      "@clover/protocol": [
+        "packages/protocol/src/index.ts"
+      ],
+      "@clover/std": [
+        "packages/std/src/index.ts"
+      ],
+      "@clover/zod": [
+        "packages/zod/src/index.ts"
+      ],
+      "@clover/cli": [
+        "packages/cli/src/index.ts"
+      ]
     },
     "types": [
       "node"

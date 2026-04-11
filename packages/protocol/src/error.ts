@@ -51,7 +51,7 @@ export function isError<
     return false;
   }
 
-  const candidate = value as { __code__?: unknown; payload?: unknown };
+  const candidate = value as { __code__: unknown; payload: unknown };
 
   return (
     typeof candidate.__code__ === "number" &&

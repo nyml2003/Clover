@@ -11,6 +11,10 @@
       "types": "./types/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./async": {
+      "types": "./types/async/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./guard": {
       "types": "./types/guard/index.d.ts",
       "import": "./dist/index.js"
@@ -23,12 +27,20 @@
       "types": "./types/object/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./path": {
+      "types": "./types/path/index.d.ts",
+      "import": "./dist/index.js"
+    },
     "./result": {
       "types": "./types/result/index.d.ts",
       "import": "./dist/index.js"
     },
     "./string": {
       "types": "./types/string/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./url": {
+      "types": "./types/url/index.d.ts",
       "import": "./dist/index.js"
     }
   },

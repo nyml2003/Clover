@@ -4,6 +4,7 @@
     { "path": "./packages/protocol" },
     { "path": "./packages/std" },
     { "path": "./packages/zod" },
-    { "path": "./packages/cli" }
+    { "path": "./packages/cli" },
+    { "path": "./packages/eslint-plugin" }
   ]
 }

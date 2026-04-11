@@ -1,4 +1,4 @@
-import { isError, type Result } from "@clover/protocol";
+import { isError, type Result } from "./_clover/protocol.js";
 
 import { UrlNormalizeErrorCode, type UrlNormalizeErrorPayload } from "./errors.js";
 import { DEFAULT_PORT_HTTP, DEFAULT_PORT_HTTPS } from "./parser-utils.js";

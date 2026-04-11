@@ -1,4 +1,4 @@
-import type { Result } from "@clover/protocol";
+import type { Result } from "./_clover/protocol.js";
 
 import {
   createUrlNormalizeError,

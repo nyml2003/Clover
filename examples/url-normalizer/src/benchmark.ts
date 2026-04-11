@@ -1,4 +1,4 @@
-import { isError } from "@clover/protocol";
+import { isError } from "./_clover/protocol.js";
 
 import { normalizeUrl } from "./parser.js";
 import type { NormalizedUrl } from "./types.js";

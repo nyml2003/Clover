@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../packages/tsconfig/node-cli.json",
+  "compilerOptions": {
+    "declaration": true
+  }
+}

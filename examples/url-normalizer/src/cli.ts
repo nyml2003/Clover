@@ -1,8 +1,8 @@
 import process from "node:process";
 import { performance } from "node:perf_hooks";
 
-import { isError } from "@clover/protocol";
-import { matchResult } from "@clover/std";
+import { isError } from "./_clover/protocol.js";
+import { matchResult } from "./_clover/std.js";
 
 import { createBenchmarkReport } from "./benchmark.js";
 import { explainInvalidUrl, normalizeUrl } from "./index.js";

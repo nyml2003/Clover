@@ -29,5 +29,7 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 - `payload` 只允许固定 shape 普通对象或 `string | number | boolean`
 - 错误码通过函数或模块自己的 `as const` 枚举对象声明，再传给 `createError(...)`
 - `@clover/cli` 提供 Node CLI 边界层：argv、render、stderr、exit code
+- `@clover/tsconfig`、`@clover/eslint-plugin`、`@clover/eslint-config` 已把这套约束开始制度化
+- `bench/` 先对真实 API 做最小 benchmark，不再只保留占位骨架
 - 核心路径禁 `throw` / `try-catch` / `class` / `this`
 - 高版本 ES 目标，尽量保留现代语法，让引擎直接优化

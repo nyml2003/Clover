@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-import { isError } from "@clover/protocol";
+import { isError } from "../src/_clover/protocol.js";
 import { describe, expect, it } from "vitest";
 
 import { explainInvalidUrl, normalizeUrl } from "../src/index.ts";
