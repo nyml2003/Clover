@@ -13,6 +13,7 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 
 文档入口：
 
+- [docs/architecture/README.md](docs/architecture/README.md)
 - [docs/sdk-spec.md](docs/sdk-spec.md)
 - [docs/v8-design.md](docs/v8-design.md)
 - [docs/stdlib-spec.md](docs/stdlib-spec.md)
