@@ -634,7 +634,6 @@ function parseUserInput(
 
     "declaration": true,
     "isolatedDeclarations": true,
-    "skipLibCheck": true
   }
 }
 ```

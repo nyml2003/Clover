@@ -16,6 +16,9 @@
     "./workspace.json": "./workspace.json"
   },
   "scripts": {
-    "lint": "python ../../scripts/package_tasks.py lint"
+    "lint": "python ../../scripts/package_tasks.py lint",
+    "lint:fix": "python ../../scripts/package_tasks.py lint-fix",
+    "unittest": "python ../../scripts/package_tasks.py unittest",
+    "unittest:coverage": "python ../../scripts/package_tasks.py unittest-coverage"
   }
 }

@@ -105,6 +105,7 @@
 - 面向全局的规范优先落到 ESLint 或 tsconfig
 - 不要靠继续加例外来掩盖架构漂移
 - 包内统一检查优先通过各 package 自己的 `lint` / `typecheck` 脚本暴露，再由根工作流聚合
+- 包级脚本默认提供 `lint`、`lint:fix`、`unittest`、`unittest:coverage`
 
 ### 第四步：用测试锁定行为
 

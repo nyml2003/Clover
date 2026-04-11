@@ -13,6 +13,15 @@
 
 同时，每个工作区包现在都提供统一的 `pnpm --filter <package> run lint` 入口，使用同一套 ESLint 配置。
 
+工作区包级统一入口现在固定为：
+
+- `lint`
+- `lint:fix`
+- `unittest`
+- `unittest:coverage`
+
+其中没有测试目录的包，`unittest` 和 `unittest:coverage` 会安全地作为 no-op 通过。
+
 仓库现在还带有一条最小 CI 流水线，覆盖：
 
 - 安装

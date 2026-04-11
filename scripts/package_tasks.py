@@ -33,6 +33,14 @@ def typecheck_package(cwd: pathlib.Path) -> None:
 
 
 def lint_package(cwd: pathlib.Path) -> None:
+    lint_package_internal(cwd, fix=False)
+
+
+def lint_fix_package(cwd: pathlib.Path) -> None:
+    lint_package_internal(cwd, fix=True)
+
+
+def lint_package_internal(cwd: pathlib.Path, fix: bool) -> None:
     candidates = ["src", "test", "index.ts", "shared.ts", "workspace.ts"]
     targets: list[str] = []
     package_root = cwd.relative_to(ROOT).as_posix()
@@ -45,23 +53,67 @@ def lint_package(cwd: pathlib.Path) -> None:
     if not targets:
         return
 
+    command = [
+        "pnpm",
+        "exec",
+        "eslint",
+        "--config",
+        "packages/eslint-config/workspace.ts",
+        *targets,
+        "--max-warnings=0",
+    ]
+
+    if fix:
+        command.append("--fix")
+
     run(
-        [
-            "pnpm",
-            "exec",
-            "eslint",
-            "--config",
-            "packages/eslint-config/workspace.ts",
-            *targets,
-            "--max-warnings=0",
-        ],
+        command,
         ROOT,
     )
 
 
+def unittest_package(cwd: pathlib.Path) -> None:
+    unittest_package_internal(cwd, coverage=False)
+
+
+def unittest_coverage_package(cwd: pathlib.Path) -> None:
+    unittest_package_internal(cwd, coverage=True)
+
+
+def unittest_package_internal(cwd: pathlib.Path, coverage: bool) -> None:
+    test_dir = cwd / "test"
+    if not test_dir.exists():
+        return
+
+    run([sys.executable, str(ROOT / "scripts" / "workflow.py"), "build"], ROOT)
+
+    test_files = sorted(path.as_posix() for path in test_dir.glob("*.test.ts"))
+    if not test_files:
+        return
+
+    command = [
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        *test_files,
+        "--environment",
+        "node",
+        "--pool",
+        "threads",
+    ]
+
+    if coverage:
+        command.append("--coverage")
+
+    run(command, ROOT)
+
+
 def main() -> int:
     if len(sys.argv) != 2:
-        raise SystemExit("Usage: python scripts/package_tasks.py <build|typecheck|lint>")
+        raise SystemExit(
+            "Usage: python scripts/package_tasks.py <build|typecheck|lint|lint-fix|unittest|unittest-coverage>"
+        )
 
     command = sys.argv[1]
     cwd = pathlib.Path.cwd()
@@ -76,6 +128,18 @@ def main() -> int:
 
     if command == "lint":
         lint_package(cwd)
+        return 0
+
+    if command == "lint-fix":
+        lint_fix_package(cwd)
+        return 0
+
+    if command == "unittest":
+        unittest_package(cwd)
+        return 0
+
+    if command == "unittest-coverage":
+        unittest_coverage_package(cwd)
         return 0
 
     raise SystemExit(f"Unknown package task: {command}")

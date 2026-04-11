@@ -9,7 +9,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "useUnknownInCatchVariables": true,
     "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
-    "skipLibCheck": true
+    "erasableSyntaxOnly": true
   }
 }
