@@ -2,9 +2,11 @@ import { None, isError } from "@clover/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
+  buildQueryString,
   explainInvalidUrl,
   normalizeUrl,
   parseHostPort,
+  parseQueryString,
   ParseHostPortErrorCode
 } from "@clover/std";
 
@@ -156,5 +158,26 @@ describe("@clover/std url", () => {
       "The port must be an integer between 1 and 65535."
     );
     expect(explainInvalidUrl("http:///path")).toBe("A host is required after the scheme.");
+  });
+
+  it("parses query strings into fixed-shape entries", () => {
+    expect(parseQueryString("?a=1&flag&empty=&a=2&&")).toEqual([
+      { key: "a", value: "1" },
+      { key: "flag", value: None },
+      { key: "empty", value: "" },
+      { key: "a", value: "2" }
+    ]);
+    expect(parseQueryString("")).toEqual([]);
+  });
+
+  it("builds query strings from fixed-shape entries", () => {
+    expect(
+      buildQueryString([
+        { key: "a", value: "1" },
+        { key: "flag", value: None },
+        { key: "empty", value: "" }
+      ])
+    ).toBe("a=1&flag&empty=");
+    expect(buildQueryString([])).toBe("");
   });
 });

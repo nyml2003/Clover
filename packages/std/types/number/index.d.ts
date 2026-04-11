@@ -14,4 +14,7 @@ export declare function parseFiniteFloat64(input: string): Result<FiniteFloat64,
 export declare function inRange(value: number, min: number, max: number): boolean;
 export declare function clamp(value: number, min: number, max: number): number;
 export declare function isFiniteNumberValue(value: unknown): value is number;
+export declare function isSafeIntegerNumber(value: unknown): value is number;
+export declare function compareNumber(left: number, right: number): -1 | 0 | 1;
+export declare function signOfNumber(value: number): -1 | 0 | 1;
 export {};

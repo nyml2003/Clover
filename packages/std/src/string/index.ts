@@ -77,3 +77,24 @@ export function endsWithAt(input: string, suffix: string, endExclusive: number =
 
   return true;
 }
+
+export function safeCompareAscii(left: string, right: string): boolean {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  let difference = 0;
+
+  for (let index = 0; index < left.length; index += 1) {
+    const leftCode = left.charCodeAt(index);
+    const rightCode = right.charCodeAt(index);
+
+    if (leftCode > 0x7f || rightCode > 0x7f) {
+      return false;
+    }
+
+    difference |= leftCode ^ rightCode;
+  }
+
+  return difference === 0;
+}

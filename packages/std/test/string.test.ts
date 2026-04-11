@@ -7,6 +7,7 @@ import {
   isAsciiDigitChar,
   isAsciiHexChar,
   isAsciiWhitespaceChar,
+  safeCompareAscii,
   splitOnce,
   startsWithAt
 } from "@clover/std";
@@ -44,5 +45,12 @@ describe("@clover/std string", () => {
     expect(endsWithAt("protocol", "oto", 5)).toBe(true);
     expect(endsWithAt("protocol", "col", 4)).toBe(false);
     expect(endsWithAt("protocol", "col", -1)).toBe(false);
+  });
+
+  it("compares ASCII strings without branching on early mismatches", () => {
+    expect(safeCompareAscii("token", "token")).toBe(true);
+    expect(safeCompareAscii("token", "taken")).toBe(false);
+    expect(safeCompareAscii("token", "token!")).toBe(false);
+    expect(safeCompareAscii("tokén", "tokén")).toBe(false);
   });
 });

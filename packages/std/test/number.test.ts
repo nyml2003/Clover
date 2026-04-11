@@ -4,10 +4,13 @@ import { isError } from "@clover/protocol";
 import {
   NumberErrorCode,
   clamp,
+  compareNumber,
   inRange,
   isFiniteNumberValue,
+  isSafeIntegerNumber,
   parseFiniteFloat64,
-  parseSmiInt
+  parseSmiInt,
+  signOfNumber
 } from "@clover/std";
 
 describe("@clover/std number", () => {
@@ -71,6 +74,18 @@ describe("@clover/std number", () => {
     expect(isFiniteNumberValue(Infinity)).toBe(false);
     expect(isFiniteNumberValue(NaN)).toBe(false);
     expect(isFiniteNumberValue("1")).toBe(false);
+    expect(isSafeIntegerNumber(1)).toBe(true);
+    expect(isSafeIntegerNumber(1.5)).toBe(false);
+    expect(isSafeIntegerNumber(Number.MAX_SAFE_INTEGER + 1)).toBe(false);
+  });
+
+  it("provides stable number comparison helpers", () => {
+    expect(compareNumber(1, 2)).toBe(-1);
+    expect(compareNumber(2, 2)).toBe(0);
+    expect(compareNumber(3, 2)).toBe(1);
+    expect(signOfNumber(-5)).toBe(-1);
+    expect(signOfNumber(0)).toBe(0);
+    expect(signOfNumber(5)).toBe(1);
   });
 
   it("still composes with the shared error guard", () => {

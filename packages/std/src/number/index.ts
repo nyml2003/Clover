@@ -122,3 +122,23 @@ export function clamp(value: number, min: number, max: number): number {
 export function isFiniteNumberValue(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
 }
+
+export function isSafeIntegerNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isSafeInteger(value);
+}
+
+export function compareNumber(left: number, right: number): -1 | 0 | 1 {
+  if (left < right) {
+    return -1;
+  }
+
+  if (left > right) {
+    return 1;
+  }
+
+  return 0;
+}
+
+export function signOfNumber(value: number): -1 | 0 | 1 {
+  return compareNumber(value, 0);
+}
