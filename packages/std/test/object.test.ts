@@ -4,7 +4,7 @@ import { hasOwn, shallowClone, shallowMerge, typedEntries, typedKeys } from "@cl
 
 describe("@clover/std object", () => {
   it("checks own properties safely", () => {
-    const value = Object.create({ inherited: true }) as { answer: number; inherited?: boolean };
+    const value = Object.create({ inherited: true }) as { answer: number; inherited: boolean };
     value.answer = 42;
     expect(hasOwn(value, "answer")).toBe(true);
     expect(hasOwn(value, "missing")).toBe(false);

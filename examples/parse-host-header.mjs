@@ -11,7 +11,7 @@ const ExampleErrorCode = {
   InvalidHeaderLine: 9001,
   InvalidHostHeader: 9002,
   InvalidHostPort: 9003
-};
+} as const;
 
 function parseHostHeader(line) {
   const nameAndValue = splitOnce(line, ": ");
@@ -44,7 +44,10 @@ function parseHostHeader(line) {
   const port = parseSmiInt(rawPort);
 
   if (isError(port)) {
-    return port;
+    return createError(ExampleErrorCode.InvalidHostPort, {
+      line,
+      reason: port.payload.reason
+    });
   }
 
   if (!inRange(port, 1, 65_535)) {
@@ -71,7 +74,7 @@ function printHostHeader(line) {
         ? `[ok] ${value.name} -> host=${value.host}, port=None`
         : `[ok] ${value.name} -> host=${value.host}, port=${value.port}`,
     (error) =>
-      `[err] code=${error.__code__} invalid host header: ${line} data=${JSON.stringify(error.data)}`
+      `[err] code=${error.__code__} invalid host header: ${line} payload=${JSON.stringify(error.payload)}`
   );
 }
 

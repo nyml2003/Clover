@@ -1,7 +1,7 @@
 export type { Brand } from "./brand.js";
 export { assertNever } from "./assert.js";
-export { createError, isError, isErrorData, isErrorObjectData, isErrorScalarData } from "./error.js";
-export type { CloverError, ErrorData, ErrorObjectData, ErrorScalarData } from "./error.js";
+export { createError, isError, isErrorObjectPayload, isErrorPayload, isErrorScalarPayload } from "./error.js";
+export type { CloverError, ErrorObjectPayload, ErrorPayload, ErrorScalarPayload } from "./error.js";
 export type { BigIntInt, FiniteFloat64, Float64, SmiInt } from "./number.js";
 export type { Option } from "./option.js";
 export { isNone } from "./option.js";

@@ -1,15 +1,17 @@
-import { type CloverError, type FiniteFloat64, type None as NoneValue, type Result, type SmiInt } from "@clover/protocol";
+import { type CloverError, type FiniteFloat64, type Result, type SmiInt } from "@clover/protocol";
 export declare const NumberErrorCode: {
     readonly InvalidSmiInt: 1001;
     readonly InvalidFiniteFloat64: 1002;
 };
-export type NumberErrorData = {
+type NumberErrorCodeValue = (typeof NumberErrorCode)[keyof typeof NumberErrorCode];
+export type NumberErrorPayload = {
     input: string;
-    reason: string | NoneValue;
+    reason: string;
 };
-export type NumberError = CloverError<NumberErrorData>;
-export declare function parseSmiInt(input: string): Result<SmiInt, NumberErrorData>;
-export declare function parseFiniteFloat64(input: string): Result<FiniteFloat64, NumberErrorData>;
+export type NumberError = CloverError<NumberErrorCodeValue, NumberErrorPayload>;
+export declare function parseSmiInt(input: string): Result<SmiInt, typeof NumberErrorCode.InvalidSmiInt, NumberErrorPayload>;
+export declare function parseFiniteFloat64(input: string): Result<FiniteFloat64, typeof NumberErrorCode.InvalidFiniteFloat64, NumberErrorPayload>;
 export declare function inRange(value: number, min: number, max: number): boolean;
 export declare function clamp(value: number, min: number, max: number): number;
 export declare function isFiniteNumberValue(value: unknown): value is number;
+export {};

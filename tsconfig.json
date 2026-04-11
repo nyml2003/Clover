@@ -3,6 +3,7 @@
   "references": [
     { "path": "./packages/protocol" },
     { "path": "./packages/std" },
-    { "path": "./packages/zod" }
+    { "path": "./packages/zod" },
+    { "path": "./packages/cli" }
   ]
 }

@@ -16,7 +16,8 @@ import {
   ERR_TRAILING_INPUT,
   ERR_USER_INFO,
   ERR_WHITESPACE,
-  type UrlNormalizeErrorData
+  UrlNormalizeErrorCode,
+  type UrlNormalizeErrorPayload
 } from "./errors.js";
 import {
   AT,
@@ -52,7 +53,9 @@ export type ParsedUrlCore = {
   length: number;
 };
 
-export function parseUrlCore(input: string): Result<ParsedUrlCore, UrlNormalizeErrorData> {
+export function parseUrlCore(
+  input: string
+): Result<ParsedUrlCore, typeof UrlNormalizeErrorCode.InvalidUrl, UrlNormalizeErrorPayload> {
   const length = input.length;
   if (length === 0) {
     return fail(ERR_EMPTY_INPUT);
@@ -386,6 +389,8 @@ function toLowerAsciiCode(code: number): number {
   return code >= 0x41 && code <= 0x5a ? code + 0x20 : code;
 }
 
-function fail(error: UrlNormalizeErrorData): Result<never, UrlNormalizeErrorData> {
+function fail(
+  error: UrlNormalizeErrorPayload
+): Result<never, typeof UrlNormalizeErrorCode.InvalidUrl, UrlNormalizeErrorPayload> {
   return createUrlNormalizeError(error);
 }

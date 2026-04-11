@@ -3,15 +3,15 @@ export { assertNever } from "./assert.js";
 export {
   createError,
   isError,
-  isErrorData,
-  isErrorObjectData,
-  isErrorScalarData
+  isErrorObjectPayload,
+  isErrorPayload,
+  isErrorScalarPayload
 } from "./error.js";
 export type {
   CloverError,
-  ErrorData,
-  ErrorObjectData,
-  ErrorScalarData
+  ErrorObjectPayload,
+  ErrorPayload,
+  ErrorScalarPayload
 } from "./error.js";
 export type { BigIntInt, FiniteFloat64, Float64, SmiInt } from "./number.js";
 export type { Option } from "./option.js";

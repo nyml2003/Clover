@@ -1,9 +1,7 @@
 import {
-  None,
   createError,
   type CloverError,
   type FiniteFloat64,
-  type None as NoneValue,
   type Result,
   type SmiInt
 } from "@clover/protocol";
@@ -18,25 +16,27 @@ export const NumberErrorCode = {
 
 type NumberErrorCodeValue = (typeof NumberErrorCode)[keyof typeof NumberErrorCode];
 
-export type NumberErrorData = {
+export type NumberErrorPayload = {
   input: string;
-  reason: string | NoneValue;
+  reason: string;
 };
 
-export type NumberError = CloverError<NumberErrorData>;
+export type NumberError = CloverError<NumberErrorCodeValue, NumberErrorPayload>;
 
-function createNumberError(
-  code: NumberErrorCodeValue,
+function createNumberError<ErrorCode extends NumberErrorCodeValue>(
+  code: ErrorCode,
   input: string,
-  reason: string | NoneValue
-): NumberError {
+  reason: string
+): CloverError<ErrorCode, NumberErrorPayload> {
   return createError(code, {
     input,
     reason
   });
 }
 
-export function parseSmiInt(input: string): Result<SmiInt, NumberErrorData> {
+export function parseSmiInt(
+  input: string
+): Result<SmiInt, typeof NumberErrorCode.InvalidSmiInt, NumberErrorPayload> {
   if (input.length === 0) {
     return createNumberError(NumberErrorCode.InvalidSmiInt, input, "empty");
   }
@@ -82,7 +82,9 @@ export function parseSmiInt(input: string): Result<SmiInt, NumberErrorData> {
   return signedValue as SmiInt;
 }
 
-export function parseFiniteFloat64(input: string): Result<FiniteFloat64, NumberErrorData> {
+export function parseFiniteFloat64(
+  input: string
+): Result<FiniteFloat64, typeof NumberErrorCode.InvalidFiniteFloat64, NumberErrorPayload> {
   if (input.length === 0 || input.trim() !== input) {
     return createNumberError(NumberErrorCode.InvalidFiniteFloat64, input, "invalid-format");
   }

@@ -19,6 +19,14 @@
     "declaration": true,
     "composite": true,
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@clover/protocol": ["packages/protocol/src/index.ts"],
+      "@clover/std": ["packages/std/src/index.ts"],
+      "@clover/zod": ["packages/zod/src/index.ts"],
+      "@clover/cli": ["packages/cli/src/index.ts"]
+    },
     "types": [
       "node"
     ]

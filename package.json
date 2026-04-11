@@ -1,17 +1,16 @@
 {
   "name": "clover-workspace",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@10.31.0",
   "engines": {
     "node": ">=24.0.0"
   },
   "scripts": {
-    "build": "pnpm --filter @clover/protocol run build && pnpm --filter @clover/std run build && pnpm --filter @clover/zod run build && pnpm --filter @clover/example-url-normalizer run build",
-    "typecheck": "pnpm --filter @clover/protocol run typecheck && pnpm --filter @clover/std run typecheck && pnpm --filter @clover/zod run typecheck && pnpm --filter @clover/example-url-normalizer run typecheck",
-    "test": "pnpm run build && vitest run",
-    "test:coverage": "vitest run --coverage",
-    "example:host-header": "pnpm run build && node examples/parse-host-header.mjs",
-    "example:url-normalizer": "node ./examples/url-normalizer/dist/cli.js"
+    "build": "pnpm --filter @clover/protocol run build && pnpm --filter @clover/std run build && pnpm --filter @clover/zod run build && pnpm --filter @clover/cli run build",
+    "typecheck": "pnpm exec tsc -b tsconfig.json --pretty false",
+    "test": "vitest run",
+    "test:coverage": "vitest run --configLoader native --coverage"
   },
   "devDependencies": {
     "@types/node": "25.6.0",

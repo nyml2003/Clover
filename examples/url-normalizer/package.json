@@ -17,10 +17,17 @@
     "build:js": "esbuild ././src/index.ts ././src/cli.ts ././src/benchmark.ts ././src/errors.ts ././src/parser.ts ././src/parser-core.ts ././src/parser-utils.ts ././src/types.ts --format=esm --platform=node --target=es2023 --packages=external --outdir=dist --outbase=src",
     "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
     "start": "node ./dist/cli.js"
   },
   "dependencies": {
-    "@clover/protocol": "workspace:*",
-    "@clover/std": "workspace:*"
+    "@clover/protocol": "file:../../packages/protocol",
+    "@clover/std": "file:../../packages/std"
+  },
+  "devDependencies": {
+    "@types/node": "25.6.0",
+    "esbuild": "0.28.0",
+    "typescript": "6.0.2",
+    "vitest": "4.1.4"
   }
 }

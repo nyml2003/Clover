@@ -1,18 +1,20 @@
 import { isError, type Result } from "@clover/protocol";
 
-import type { UrlNormalizeErrorData } from "./errors.js";
+import { UrlNormalizeErrorCode, type UrlNormalizeErrorPayload } from "./errors.js";
 import { DEFAULT_PORT_HTTP, DEFAULT_PORT_HTTPS } from "./parser-utils.js";
 import { parseUrlCore, type ParsedUrlCore } from "./parser-core.js";
 import type { NormalizedUrl } from "./types.js";
 
-export function normalizeUrl(input: string): Result<NormalizedUrl, UrlNormalizeErrorData> {
+export function normalizeUrl(
+  input: string
+): Result<NormalizedUrl, typeof UrlNormalizeErrorCode.InvalidUrl, UrlNormalizeErrorPayload> {
   const parsed = parseUrlCore(input);
   return isError(parsed) ? parsed : finalizeParsedUrl(input, parsed);
 }
 
 export function explainInvalidUrl(input: string): string | null {
   const parsed = parseUrlCore(input);
-  return isError(parsed) ? parsed.data : null;
+  return isError(parsed) ? parsed.payload : null;
 }
 
 function finalizeParsedUrl(input: string, parsed: ParsedUrlCore): NormalizedUrl {

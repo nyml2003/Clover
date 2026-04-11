@@ -1,8 +1,13 @@
 import { createError, type CloverError } from "@clover/protocol";
 
-export type UrlNormalizeErrorData = string;
+export const UrlNormalizeErrorCode = {
+  InvalidUrl: 3001
+} as const;
 
-export const UrlNormalizeErrorCode = 3001;
+type UrlNormalizeErrorCodeValue = (typeof UrlNormalizeErrorCode)[keyof typeof UrlNormalizeErrorCode];
+
+export type UrlNormalizeErrorPayload = string;
+export type UrlNormalizeError = CloverError<UrlNormalizeErrorCodeValue, UrlNormalizeErrorPayload>;
 
 export const ERR_EMPTY_INPUT = "URL input must be a non-empty string.";
 export const ERR_ABSOLUTE_URL = "An absolute http:// or https:// URL is required.";
@@ -20,6 +25,6 @@ export const ERR_PORT_SIMPLE = "Only simple host:port authorities are supported.
 export const ERR_PORT_RANGE = "The port must be an integer between 1 and 65535.";
 export const ERR_PATH_PREFIX = "The path must start with '/' when present.";
 
-export function createUrlNormalizeError(error: UrlNormalizeErrorData): CloverError<UrlNormalizeErrorData> {
-  return createError(UrlNormalizeErrorCode, error);
+export function createUrlNormalizeError(error: UrlNormalizeErrorPayload): UrlNormalizeError {
+  return createError(UrlNormalizeErrorCode.InvalidUrl, error);
 }

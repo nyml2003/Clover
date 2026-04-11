@@ -5,11 +5,16 @@ import {
   assertNever,
   createError,
   isError,
-  isErrorData,
-  isErrorObjectData,
-  isErrorScalarData,
+  isErrorObjectPayload,
+  isErrorPayload,
+  isErrorScalarPayload,
   isNone
 } from "@clover/protocol";
+
+const ProtocolErrorCode = {
+  MissingValue: 1001,
+  InvalidInput: 1002
+} as const;
 
 describe("@clover/protocol", () => {
   it("keeps None as a symbol sentinel", () => {
@@ -22,56 +27,66 @@ describe("@clover/protocol", () => {
   });
 
   it("creates fixed-shape error objects", () => {
-    expect(createError(1001, None)).toEqual({
-      __code__: 1001,
-      data: None
+    expect(createError(ProtocolErrorCode.MissingValue, "missing-value")).toEqual({
+      __code__: ProtocolErrorCode.MissingValue,
+      payload: "missing-value"
     });
-    expect(createError(1002, { input: "80", reason: "bad" })).toEqual({
-      __code__: 1002,
-      data: { input: "80", reason: "bad" }
+    expect(createError(ProtocolErrorCode.InvalidInput, { input: "80", reason: "bad" })).toEqual({
+      __code__: ProtocolErrorCode.InvalidInput,
+      payload: { input: "80", reason: "bad" }
     });
   });
 
-  it("checks scalar error data", () => {
-    expect(isErrorScalarData(None)).toBe(true);
-    expect(isErrorScalarData("bad")).toBe(true);
-    expect(isErrorScalarData(42)).toBe(true);
-    expect(isErrorScalarData(false)).toBe(true);
-    expect(isErrorScalarData(null)).toBe(false);
-    expect(isErrorScalarData(undefined)).toBe(false);
-    expect(isErrorScalarData(Symbol.for("bad"))).toBe(false);
-    expect(isErrorScalarData(() => 1)).toBe(false);
+  it("checks scalar error payloads", () => {
+    expect(isErrorScalarPayload("bad")).toBe(true);
+    expect(isErrorScalarPayload(42)).toBe(true);
+    expect(isErrorScalarPayload(false)).toBe(true);
+    expect(isErrorScalarPayload(null)).toBe(false);
+    expect(isErrorScalarPayload(undefined)).toBe(false);
+    expect(isErrorScalarPayload(Symbol.for("bad"))).toBe(false);
+    expect(isErrorScalarPayload(() => 1)).toBe(false);
   });
 
-  it("checks object error data with scalar leaf values only", () => {
+  it("checks object error payloads with scalar leaf values only", () => {
     expect(
-      isErrorObjectData({
+      isErrorObjectPayload({
         input: "80",
         reason: "overflow",
         retryable: false
       })
     ).toBe(true);
-    expect(isErrorObjectData({})).toBe(true);
-    expect(isErrorObjectData({ nested: { bad: true } })).toBe(false);
-    expect(isErrorObjectData(["bad"])).toBe(false);
-    expect(isErrorObjectData(null)).toBe(false);
+    expect(isErrorObjectPayload({})).toBe(true);
+    expect(isErrorObjectPayload({ nested: { bad: true } })).toBe(false);
+    expect(isErrorObjectPayload(["bad"])).toBe(false);
+    expect(isErrorObjectPayload(null)).toBe(false);
   });
 
-  it("checks all allowed error data variants", () => {
-    expect(isErrorData(None)).toBe(true);
-    expect(isErrorData("bad")).toBe(true);
-    expect(isErrorData(42)).toBe(true);
-    expect(isErrorData(true)).toBe(true);
-    expect(isErrorData({ input: "80", reason: None })).toBe(true);
-    expect(isErrorData({ nested: { bad: true } })).toBe(false);
+  it("checks all allowed error payload variants", () => {
+    expect(isErrorPayload("bad")).toBe(true);
+    expect(isErrorPayload(42)).toBe(true);
+    expect(isErrorPayload(true)).toBe(true);
+    expect(isErrorPayload({ input: "80", reason: "bad" })).toBe(true);
+    expect(isErrorPayload({ nested: { bad: true } })).toBe(false);
   });
 
   it("checks error objects through the reserved __code__ field", () => {
-    expect(isError(createError(1001, None))).toBe(true);
-    expect(isError({ __code__: 1001, data: { input: "80", reason: "bad" } })).toBe(true);
-    expect(isError({ __code__: "1001", data: None })).toBe(false);
-    expect(isError({ data: None })).toBe(false);
-    expect(isError({ __code__: 1001 })).toBe(false);
+    expect(isError(createError(ProtocolErrorCode.MissingValue, "missing-value"))).toBe(true);
+    expect(
+      isError({
+        __code__: ProtocolErrorCode.InvalidInput,
+        payload: { input: "80", reason: "bad" }
+      })
+    ).toBe(true);
+    expect(
+      isError({
+        __code__: ProtocolErrorCode.MissingValue,
+        payload: { nested: { bad: true } }
+      })
+    ).toBe(false);
+    expect(isError({ __code__: ProtocolErrorCode.MissingValue, payload: () => 1 })).toBe(false);
+    expect(isError({ __code__: "1001", payload: "bad" })).toBe(false);
+    expect(isError({ payload: "bad" })).toBe(false);
+    expect(isError({ __code__: ProtocolErrorCode.MissingValue })).toBe(false);
     expect(isError(null)).toBe(false);
     expect(isError(["bad"])).toBe(false);
   });

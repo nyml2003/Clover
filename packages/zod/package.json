@@ -15,8 +15,8 @@
   },
   "scripts": {
     "build": "pnpm run clean && pnpm run build:js && pnpm run build:types && pnpm run postbuild",
-    "build:js": "esbuild src/index.ts --bundle --format=esm --platform=node --target=es2023 --packages=external --outfile=dist/index.js",
-    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly --outDir types --tsBuildInfoFile types/.tsbuildinfo",
+    "build:js": "node ../../scripts/build-esbuild.mjs src/index.ts dist/index.js",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly --tsBuildInfoFile types/.tsbuildinfo",
     "clean": "node ../../scripts/clean-dist.mjs dist types",
     "postbuild": "node ../../scripts/clean-dist.mjs dist/index.d.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"

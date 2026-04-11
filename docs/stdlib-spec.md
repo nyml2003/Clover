@@ -110,7 +110,7 @@ packages/
 
 - 优先单字符、单次扫描实现
 - 正则不是默认方案
-- 返回值应尽量走 `Option<T>` / `Result<T, E>`
+- 返回值应尽量走 `Option<T>` / `Result<T, Code, Payload>`
 - 不隐式抛异常
 
 特别说明：
@@ -214,14 +214,14 @@ packages/
 
 定位：
 
-- 围绕 Clover 的 `Result<T, E>` 协议提供函数式辅助
+- 围绕 Clover 的 `Result<T, Code, Payload>` 协议提供函数式辅助
 - 不是链式对象系统
 
 建议纳入：
 
 - `ok`
 - `err`
-- `isErr`
+- `isError`
 - `mapResult`
 - `mapErr`
 - `andThenResult`
@@ -234,7 +234,7 @@ packages/
 
 - 允许函数式组合
 - 不允许方法链对象
-- 热路径里优先直接 `if (x === Err)`
+- 进入错误分支时优先先做一次 `isError(x)`，然后按 `error.__code__` 分派
 
 重要修正：
 
@@ -264,7 +264,7 @@ packages/
 
 - 优先有限状态或单次扫描
 - 不依赖大正则
-- 解析输出统一走固定 shape + `Option<T>` / `Result<T, E>`
+- 解析输出统一走固定 shape + `Option<T>` / `Result<T, Code, Payload>`
 
 ### 4.7 类型谓词与安全判断
 
@@ -283,7 +283,7 @@ packages/
 - `isArrayValue`
 - `isNilHostValue`
 - `isNone`
-- `isErr`
+- `isError`
 
 重要修正：
 
@@ -381,7 +381,7 @@ packages/
 以下能力应放进 `std/boundary` 或单独模块：
 
 - Zod schema 适配
-- Zod error 转 `Err`
+- Zod error 转 `CloverError`
 - `nullable` / `optional` 收敛到 `None`
 - 环境变量解析
 - URLSearchParams / Headers / Request 等宿主适配
@@ -422,7 +422,7 @@ packages/
 - `typedKeys`
 - `shallowMerge`
 - `isNone`
-- `isErr`
+- `isError`
 - `mapResult`
 - `andThenResult`
 - `collectAsyncLimited`

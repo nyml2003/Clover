@@ -104,11 +104,22 @@ Clover 的规则：
 推荐：
 
 ```ts
-function sum(values: readonly SmiInt[]): SmiInt | Err {
+const MathErrorCode = {
+  Overflow: 1,
+} as const;
+
+type MathErrorPayload = {
+  reason: string;
+};
+
+function sum(
+  values: readonly SmiInt[]
+): Result<SmiInt, typeof MathErrorCode.Overflow, MathErrorPayload> {
   let total = 0 as SmiInt;
   for (const value of values) {
-    total = addSmi(total, value);
-    if (total === Err) return Err;
+    const next = addSmi(total, value);
+    if (isError(next)) return next;
+    total = next;
   }
   return total;
 }
@@ -184,7 +195,7 @@ Clover 默认把 V8 `Smi` 友好整数域作为热路径整数目标。
 Clover 核心域优先使用：
 
 - `=== None`
-- `=== Err`
+- `error.__code__ === SomeErrorCode.SomeCase`
 - `=== "tag"`
 
 原因：
@@ -292,7 +303,7 @@ Clover 核心域把错误视为协议数据。
 默认协议：
 
 - 成功返回值
-- 失败返回 `Err` 或受控错误 tag
+- 失败返回受控 `CloverError`
 
 这样做的意义：
 
@@ -305,7 +316,7 @@ Clover 核心域把错误视为协议数据。
 现代 V8 对 `try-catch` 的处理已经比过去成熟，但 Clover 仍然规定：
 
 - 异常只允许停留在边界层
-- 捕获后立即转译为 `Err` 或受控错误 tag
+- 捕获后立即转译为 `CloverError`
 - 核心层不接受异常穿透
 
 ## 10. emitted JS 与目标版本

@@ -34,11 +34,11 @@ describe("@clover/zod", () => {
     }
 
     expect(result.__code__).toBe(ZodErrorCode.ParseFailed);
-    expect(result.data.mode).toBe("parse");
-    expect(result.data.inputKind).toBe("object");
-    expect(result.data.issueCount).toBe(1);
-    expect(result.data.firstPath).toBe("port");
-    expect(typeof result.data.firstMessage).toBe("string");
+    expect(result.payload.mode).toBe("parse");
+    expect(result.payload.inputKind).toBe("object");
+    expect(result.payload.issueCount).toBe(1);
+    expect(result.payload.firstPath).toBe("port");
+    expect(typeof result.payload.firstMessage).toBe("string");
   });
 
   it("turns undefined into None for optional parsing", () => {
@@ -55,8 +55,8 @@ describe("@clover/zod", () => {
     }
 
     expect(result.__code__).toBe(ZodErrorCode.OptionalParseFailed);
-    expect(result.data.mode).toBe("optional");
-    expect(result.data.inputKind).toBe("number");
+    expect(result.payload.mode).toBe("optional");
+    expect(result.payload.inputKind).toBe("number");
   });
 
   it("turns null into None for nullable parsing", () => {
@@ -73,8 +73,8 @@ describe("@clover/zod", () => {
     }
 
     expect(result.__code__).toBe(ZodErrorCode.NullableParseFailed);
-    expect(result.data.mode).toBe("nullable");
-    expect(result.data.inputKind).toBe("boolean");
+    expect(result.payload.mode).toBe("nullable");
+    expect(result.payload.inputKind).toBe("boolean");
   });
 
   it("turns null and undefined into None for optional-nullable parsing", () => {
@@ -90,8 +90,8 @@ describe("@clover/zod", () => {
     }
 
     expect(result.__code__).toBe(ZodErrorCode.OptionalNullableParseFailed);
-    expect(result.data.mode).toBe("optional-nullable");
-    expect(result.data.inputKind).toBe("array");
+    expect(result.payload.mode).toBe("optional-nullable");
+    expect(result.payload.inputKind).toBe("array");
   });
 
   it("converts safeParse results directly", () => {

@@ -1,6 +1,7 @@
 {
-  "name": "@clover/protocol",
+  "name": "@clover/cli",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "sideEffects": false,
   "files": ["dist", "types", "README.md"],
@@ -19,5 +20,10 @@
     "clean": "node ../../scripts/clean-dist.mjs dist types",
     "postbuild": "node ../../scripts/clean-dist.mjs dist/index.d.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@clover/protocol": "workspace:*",
+    "@clover/std": "workspace:*",
+    "@clover/zod": "workspace:*"
   }
 }

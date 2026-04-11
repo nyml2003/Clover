@@ -7,18 +7,21 @@ export default defineConfig({
     alias: {
       "@clover/protocol": fileURLToPath(new URL("./packages/protocol/src/index.ts", import.meta.url)),
       "@clover/std": fileURLToPath(new URL("./packages/std/src/index.ts", import.meta.url)),
-      "@clover/zod": fileURLToPath(new URL("./packages/zod/src/index.ts", import.meta.url))
+      "@clover/zod": fileURLToPath(new URL("./packages/zod/src/index.ts", import.meta.url)),
+      "@clover/cli": fileURLToPath(new URL("./packages/cli/src/index.ts", import.meta.url))
     }
   },
   test: {
     environment: "node",
     include: ["packages/*/test/**/*.test.ts"],
+    pool: "threads",
     coverage: {
       provider: "v8",
       include: [
         "packages/protocol/src/**/*.ts",
         "packages/std/src/**/*.ts",
-        "packages/zod/src/**/*.ts"
+        "packages/zod/src/**/*.ts",
+        "packages/cli/src/**/*.ts"
       ],
       thresholds: {
         lines: 90,

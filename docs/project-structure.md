@@ -35,6 +35,7 @@ packages/
   protocol/
   std/
   zod/
+  cli/
   tsconfig/
   eslint-plugin/
   eslint-config/
@@ -64,6 +65,9 @@ std
   ^
   |
 zod
+  ^
+  |
+cli
 
 eslint-plugin
   ^
@@ -81,6 +85,7 @@ examples / bench
 - `zod` 可以依赖 `protocol` 和 `std`
 - `eslint-plugin` 不依赖运行时包
 - `eslint-config` 只包装规则组合，不承载业务逻辑
+- `cli` 可以依赖 `protocol`、`std` 和 `zod`
 - `examples` 和 `bench` 可以依赖主包，但主包绝不能反向依赖它们
 
 ## 4. 包职责
@@ -98,10 +103,11 @@ examples / bench
 - `CloverError`
 - `Brand`
 - `Option<T>`
-- `Result<T, E>`
+- `Result<T, Code, Payload>`
 - 数值品牌类型
 - `isNone`
 - `isError`
+- `isErrorPayload`
 - `assertNever`
 
 不应包含：
@@ -311,7 +317,7 @@ packages/eslint-plugin/
 
 - 字符串扫描 benchmark
 - 数字解析 benchmark
-- `None` / `Err` 分支 benchmark
+- `None` / `CloverError` 分支 benchmark
 - path / query 解析 benchmark
 
 规则：

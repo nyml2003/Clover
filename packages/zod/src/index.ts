@@ -3,7 +3,6 @@ import {
   createError,
   isError,
   type CloverError,
-  type None as NoneValue,
   type Option,
   type Result
 } from "@clover/protocol";
@@ -16,17 +15,19 @@ export const ZodErrorCode = {
   OptionalNullableParseFailed: 2004
 } as const;
 
+type ZodErrorCodeValue = (typeof ZodErrorCode)[keyof typeof ZodErrorCode];
+
 export type ZodBoundaryMode = "parse" | "optional" | "nullable" | "optional-nullable";
 
-export type ZodBoundaryErrorData = {
+export type ZodBoundaryErrorPayload = {
   mode: ZodBoundaryMode;
   inputKind: string;
   issueCount: number;
-  firstPath: string | NoneValue;
-  firstMessage: string | NoneValue;
+  firstPath: string;
+  firstMessage: string;
 };
 
-export type ZodBoundaryError = CloverError<ZodBoundaryErrorData>;
+export type ZodBoundaryError = CloverError<ZodErrorCodeValue, ZodBoundaryErrorPayload>;
 
 type ZodIssueLike = {
   path: readonly PropertyKey[];
@@ -53,26 +54,26 @@ function getInputKind(value: unknown): string {
   return typeof value;
 }
 
-function getFirstPath(issues: readonly ZodIssueLike[]): string | NoneValue {
+function getFirstPath(issues: readonly ZodIssueLike[]): string {
   const issue = issues[0];
   if (!issue || issue.path.length === 0) {
-    return None;
+    return "";
   }
 
   return issue.path.map(String).join(".");
 }
 
-function getFirstMessage(issues: readonly ZodIssueLike[]): string | NoneValue {
+function getFirstMessage(issues: readonly ZodIssueLike[]): string {
   const issue = issues[0];
-  return issue ? issue.message : None;
+  return issue ? issue.message : "";
 }
 
-function toBoundaryError(
-  code: number,
+function toBoundaryError<ErrorCode extends ZodErrorCodeValue>(
+  code: ErrorCode,
   mode: ZodBoundaryMode,
   input: unknown,
   issues: readonly ZodIssueLike[]
-): ZodBoundaryError {
+): CloverError<ErrorCode, ZodBoundaryErrorPayload> {
   return createError(code, {
     mode,
     inputKind: getInputKind(input),
@@ -82,12 +83,12 @@ function toBoundaryError(
   });
 }
 
-export function fromSafeParse<T>(
+export function fromSafeParse<T, ErrorCode extends ZodErrorCodeValue>(
   result: SafeParseResult<T>,
-  code: number,
+  code: ErrorCode,
   mode: ZodBoundaryMode,
   input: unknown
-): Result<T, ZodBoundaryErrorData> {
+): Result<T, ErrorCode, ZodBoundaryErrorPayload> {
   if (result.success) {
     return result.data;
   }
@@ -98,14 +99,18 @@ export function fromSafeParse<T>(
 export function parseWith<Schema extends z.ZodType>(
   schema: Schema,
   input: unknown
-): Result<z.output<Schema>, ZodBoundaryErrorData> {
+): Result<z.output<Schema>, typeof ZodErrorCode.ParseFailed, ZodBoundaryErrorPayload> {
   return fromSafeParse(schema.safeParse(input), ZodErrorCode.ParseFailed, "parse", input);
 }
 
 export function parseOptionalWith<Schema extends z.ZodType>(
   schema: Schema,
   input: unknown
-): Result<Option<z.output<Schema>>, ZodBoundaryErrorData> {
+): Result<
+  Option<z.output<Schema>>,
+  typeof ZodErrorCode.OptionalParseFailed,
+  ZodBoundaryErrorPayload
+> {
   if (input === undefined) {
     return None;
   }
@@ -116,7 +121,11 @@ export function parseOptionalWith<Schema extends z.ZodType>(
 export function parseNullableWith<Schema extends z.ZodType>(
   schema: Schema,
   input: unknown
-): Result<Option<z.output<Schema>>, ZodBoundaryErrorData> {
+): Result<
+  Option<z.output<Schema>>,
+  typeof ZodErrorCode.NullableParseFailed,
+  ZodBoundaryErrorPayload
+> {
   if (input === null) {
     return None;
   }
@@ -127,7 +136,11 @@ export function parseNullableWith<Schema extends z.ZodType>(
 export function parseOptionalNullableWith<Schema extends z.ZodType>(
   schema: Schema,
   input: unknown
-): Result<Option<z.output<Schema>>, ZodBoundaryErrorData> {
+): Result<
+  Option<z.output<Schema>>,
+  typeof ZodErrorCode.OptionalNullableParseFailed,
+  ZodBoundaryErrorPayload
+> {
   if (input === undefined || input === null) {
     return None;
   }
@@ -141,7 +154,7 @@ export function parseOptionalNullableWith<Schema extends z.ZodType>(
 }
 
 export function unwrapParsedOption<T>(
-  result: Result<Option<T>, ZodBoundaryErrorData>
+  result: Result<Option<T>, ZodErrorCodeValue, ZodBoundaryErrorPayload>
 ): { ok: true; value: Option<T> } | { ok: false; error: ZodBoundaryError } {
   if (isError(result)) {
     return {

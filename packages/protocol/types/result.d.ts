@@ -1,2 +1,2 @@
-import type { CloverError, ErrorData } from "./error.js";
-export type Result<T, E extends ErrorData = ErrorData> = T | CloverError<E>;
+import type { CloverError, ErrorPayload } from "./error.js";
+export type Result<T, ErrorCode extends number = number, Payload extends ErrorPayload = ErrorPayload> = T | CloverError<ErrorCode, Payload>;

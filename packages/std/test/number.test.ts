@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { None, isError } from "@clover/protocol";
+import { isError } from "@clover/protocol";
 import {
   NumberErrorCode,
   clamp,
@@ -21,23 +21,23 @@ describe("@clover/std number", () => {
   it("returns stable error objects for invalid smi parsing", () => {
     expect(parseSmiInt("")).toEqual({
       __code__: NumberErrorCode.InvalidSmiInt,
-      data: { input: "", reason: "empty" }
+      payload: { input: "", reason: "empty" }
     });
     expect(parseSmiInt("+")).toEqual({
       __code__: NumberErrorCode.InvalidSmiInt,
-      data: { input: "+", reason: "sign-only" }
+      payload: { input: "+", reason: "sign-only" }
     });
     expect(parseSmiInt("1.5")).toEqual({
       __code__: NumberErrorCode.InvalidSmiInt,
-      data: { input: "1.5", reason: "non-digit" }
+      payload: { input: "1.5", reason: "non-digit" }
     });
     expect(parseSmiInt("2147483648")).toEqual({
       __code__: NumberErrorCode.InvalidSmiInt,
-      data: { input: "2147483648", reason: "overflow" }
+      payload: { input: "2147483648", reason: "overflow" }
     });
     expect(parseSmiInt("abc")).toEqual({
       __code__: NumberErrorCode.InvalidSmiInt,
-      data: { input: "abc", reason: "non-digit" }
+      payload: { input: "abc", reason: "non-digit" }
     });
   });
 
@@ -45,15 +45,15 @@ describe("@clover/std number", () => {
     expect(parseFiniteFloat64("3.14")).toBe(3.14);
     expect(parseFiniteFloat64(" 3.14")).toEqual({
       __code__: NumberErrorCode.InvalidFiniteFloat64,
-      data: { input: " 3.14", reason: "invalid-format" }
+      payload: { input: " 3.14", reason: "invalid-format" }
     });
     expect(parseFiniteFloat64("Infinity")).toEqual({
       __code__: NumberErrorCode.InvalidFiniteFloat64,
-      data: { input: "Infinity", reason: "non-finite" }
+      payload: { input: "Infinity", reason: "non-finite" }
     });
     expect(parseFiniteFloat64("NaN")).toEqual({
       __code__: NumberErrorCode.InvalidFiniteFloat64,
-      data: { input: "NaN", reason: "non-finite" }
+      payload: { input: "NaN", reason: "non-finite" }
     });
   });
 
@@ -76,6 +76,6 @@ describe("@clover/std number", () => {
   it("still composes with the shared error guard", () => {
     const invalid = parseSmiInt("xyz");
     expect(isError(invalid)).toBe(true);
-    expect(isError(None)).toBe(false);
+    expect(isError("not-an-error")).toBe(false);
   });
 });
