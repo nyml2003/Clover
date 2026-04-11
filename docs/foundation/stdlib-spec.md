@@ -61,14 +61,18 @@
 packages/
   std/
     src/
-      string/
+      async/
+      convert/
+      guard/
+      immutable/
       number/
       object/
-      result/
-      async/
+      parser/
       path/
+      query/
+      result/
+      string/
       url/
-      guard/
       security/
       boundary/
 ```
@@ -77,7 +81,7 @@ packages/
 
 - `std/` 是可执行标准库
 - `boundary/` 放 Zod 相关适配
-- 纯类型协议仍然留在 `packages/types/`
+- 纯协议类型仍然通过 `@clover/protocol` 暴露，而不是单独维护一个独立的类型包
 
 ## 4. 推荐纳入的工具域
 
@@ -184,6 +188,11 @@ packages/
 
 它们的目标是补齐固定字段，而不是删字段。
 
+补充：
+
+- 不可变数据操作应优先提供“替换 / patch / 数组局部更新”这类固定 shape 友好能力
+- 不应通过“删除字段”来伪装成不可变更新
+
 ### 4.4 异步与流式工具
 
 定位：
@@ -251,14 +260,19 @@ packages/
 建议纳入：
 
 - `normalizePathSegments`
+- `splitPathSegments`
+- `joinPathSegments`
+- `parsePath`
 - `joinPath`
 - `joinPathSafe`
 - `parseQueryString`
+- `getQueryParamValues`
+- `toQueryRecord`
 - `parseQueryStream`
 - `buildQueryString`
 - `buildUrl`
 - `parseHostPort`
-- `extractUrlParts`
+- `parseUrlParts`
 
 规则：
 
@@ -266,7 +280,58 @@ packages/
 - 不依赖大正则
 - 解析输出统一走固定 shape + `Option<T>` / `Result<T, Code, Payload>`
 
-### 4.7 类型谓词与安全判断
+### 4.7 轻量解析器基础
+
+定位：
+
+- 为 URL / Path / Query 之外的轻量语法解析提供公共砖块
+- 支持 AST 基础建模
+- 不引入重型 parser framework
+
+建议纳入：
+
+- `literal`
+- `charWhere`
+- `takeWhile`
+- `sequence`
+- `choice`
+- `many`
+- `optionalParser`
+- `separatedList`
+- `mapParser`
+- `parseAll`
+- `createAstNode`
+
+规则：
+
+- 组合子本身保持极薄
+- 默认优先单次扫描和局部回退
+- AST 结构保持固定 shape
+- 不引入异常控制流
+
+### 4.8 安全类型转换
+
+定位：
+
+- 把宿主 `unknown` 值收敛成可控基础类型
+- 避免隐式宽松 coercion
+
+建议纳入：
+
+- `toStringValue`
+- `toNonEmptyStringValue`
+- `toFiniteNumberValue`
+- `toSafeIntegerValue`
+- `toBooleanValue`
+- `toRecordValue`
+
+规则：
+
+- 转换失败返回 `Result`
+- 错误 payload 保持稳定
+- 只接受文档明确允许的收敛路径
+
+### 4.9 类型谓词与安全判断
 
 定位：
 
@@ -292,7 +357,7 @@ packages/
 - 因此应提供的是“品牌构造 / 品牌校验入口”，例如 `toUserId`、`parseEmail`
 - 不应承诺存在通用 `isBrand(x)`
 
-### 4.8 轻量性能与安全工具
+### 4.10 轻量性能与安全工具
 
 定位：
 

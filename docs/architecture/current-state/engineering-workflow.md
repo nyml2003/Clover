@@ -5,9 +5,11 @@
 - `pnpm build`
 - `pnpm test`
 - `pnpm test:coverage`
+- `pnpm test:system`
 - `pnpm lint`
 - `pnpm typecheck`
 - `pnpm bench`
+- `pnpm release:check`
 
 仓库现在还带有一条最小 CI 流水线，覆盖：
 
@@ -16,15 +18,16 @@
 - `pnpm lint`
 - `pnpm typecheck`
 - `pnpm build`
+- `pnpm test:system`
 
 ## 1. 构建方式
 
 当前构建采用两段式：
 
 - `esbuild` 负责运行时代码输出
-- `tsc --emitDeclarationOnly` 负责声明文件输出
+- `dts-bundle-generator` 负责单文件声明输出
 
-这让 Clover 保持现代 ESM 输出，同时把类型产物单独控制在 `types/`。
+这让 Clover 保持现代 ESM 输出，同时把运行时和声明都收敛到 `dist/` 下的单文件产物。
 
 ## 2. 生成物管理
 
@@ -33,32 +36,32 @@
 当前约定是：
 
 - 源码保留在 `src/`
-- 运行时产物进入 `dist/`
-- 声明产物进入 `types/`
+- 运行时产物进入 `dist/index.js`
+- 声明产物进入 `dist/index.d.ts`
+- 仓库维护脚本统一使用 Python
+- bench 和 lint 配置源码使用 TypeScript
 
 ## 3. 测试与解析方式
 
-测试运行时直接把工作区包别名指向源码入口，而不是依赖发布产物。
+测试运行时先构建工作区包，再通过包入口验证运行时行为。
 
 这意味着：
 
-- 单元测试更贴近源码
-- 包间协作在测试阶段主要通过源码别名验证
-- benchmark 则明确依赖构建产物
+- 单元测试和系统测试都以构建产物和包入口为准
+- benchmark 同样依赖构建产物
+- 根层已经不再依赖单独的 Vitest 配置文件
 
 ## 4. Lint 覆盖面
 
 当前 lint 覆盖：
 
 - `packages/`
-- `scripts/`
 - `bench/`
-- 根级配置文件
+- `tests/`
 
 同时忽略：
 
 - `dist/`
-- `types/`
 - `coverage/`
 - `examples/`
 
@@ -70,5 +73,7 @@
 - `pnpm lint` 通过
 - `pnpm typecheck` 在没有 `dist/` 产物时也能独立通过
 - `pnpm build` 通过
+- `pnpm test:system` 可在 build 后验证消费入口和系统装配
+- `pnpm release:check` 提供发布前聚合检查入口
 
 这说明当前工程链路已经具备基础自闭环能力，后续重点不再是修根级 `typecheck`，而是扩大系统级验证深度与发布准备度。

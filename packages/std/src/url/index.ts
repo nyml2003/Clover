@@ -8,7 +8,14 @@ import {
   type SmiInt
 } from "@clover/protocol";
 
-import { splitOnce } from "../string/index.js";
+import { parsePath, type ParsedPath } from "../path/index.js";
+import {
+  buildQueryString,
+  getQueryParamValues,
+  parseQueryString,
+  toQueryRecord,
+  type QueryParam
+} from "../query/index.js";
 import { parseSmiInt } from "../number/index.js";
 
 const AT = 0x40;
@@ -47,11 +54,6 @@ export type ParsedHostPort = {
   port: Option<SmiInt>;
 };
 
-export type QueryParam = {
-  key: string;
-  value: Option<string>;
-};
-
 export const NormalizeUrlErrorCode = {
   InvalidUrl: 1701
 } as const;
@@ -67,6 +69,12 @@ export type NormalizedUrl = {
   path: string;
   query: Option<string>;
   normalizedHref: string;
+};
+
+export type ParsedUrlParts = {
+  normalized: NormalizedUrl;
+  path: ParsedPath;
+  queryParams: readonly QueryParam[];
 };
 
 type ParsedUrlCore = {
@@ -633,58 +641,20 @@ export function explainInvalidUrl(input: string): Option<string> {
   return isError(result) ? result.payload : None;
 }
 
-export function parseQueryString(input: string): readonly QueryParam[] {
-  const query = input.startsWith("?") ? input.slice(1) : input;
-  if (query.length === 0) {
-    return [];
+export function parseUrlParts(
+  input: string
+): Result<ParsedUrlParts, typeof NormalizeUrlErrorCode.InvalidUrl, NormalizeUrlErrorPayload> {
+  const normalized = normalizeUrl(input);
+  if (isError(normalized)) {
+    return normalized;
   }
 
-  const segments = query.split("&");
-  const params: QueryParam[] = [];
-
-  for (const segment of segments) {
-    if (segment.length === 0) {
-      continue;
-    }
-
-    const split = splitOnce(segment, "=");
-    if (split === None) {
-      params.push({
-        key: segment,
-        value: None
-      });
-      continue;
-    }
-
-    params.push({
-      key: split[0],
-      value: split[1]
-    });
-  }
-
-  return params;
+  return {
+    normalized,
+    path: parsePath(normalized.path),
+    queryParams: normalized.query === None ? [] : parseQueryString(normalized.query)
+  };
 }
 
-export function buildQueryString(params: readonly QueryParam[]): string {
-  if (params.length === 0) {
-    return "";
-  }
-
-  let output = "";
-  let isFirst = true;
-
-  for (const param of params) {
-    if (!isFirst) {
-      output += "&";
-    }
-
-    output += param.key;
-    if (param.value !== None) {
-      output += `=${param.value}`;
-    }
-
-    isFirst = false;
-  }
-
-  return output;
-}
+export { buildQueryString, getQueryParamValues, parseQueryString, toQueryRecord };
+export type { QueryParam };

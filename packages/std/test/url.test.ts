@@ -7,6 +7,7 @@ import {
   normalizeUrl,
   parseHostPort,
   parseQueryString,
+  parseUrlParts,
   ParseHostPortErrorCode
 } from "@clover/std";
 
@@ -162,6 +163,29 @@ describe("@clover/std url", () => {
 
   it("returns None when explainInvalidUrl receives a valid URL", () => {
     expect(explainInvalidUrl("https://example.com/docs")).toBe(None);
+  });
+
+  it("parses normalized URL details into path and query structures", () => {
+    expect(parseUrlParts("https://example.com/docs/api?q=1&flag")).toEqual({
+      normalized: {
+        scheme: "https",
+        host: "example.com",
+        port: None,
+        path: "/docs/api",
+        query: "q=1&flag",
+        normalizedHref: "https://example.com/docs/api?q=1&flag"
+      },
+      path: {
+        isAbsolute: true,
+        hasTrailingSlash: false,
+        normalized: "/docs/api",
+        segments: ["docs", "api"]
+      },
+      queryParams: [
+        { key: "q", value: "1" },
+        { key: "flag", value: None }
+      ]
+    });
   });
 
   it("parses query strings into fixed-shape entries", () => {

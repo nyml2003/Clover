@@ -8,8 +8,6 @@
     ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "declaration": true,
-    "composite": true,
     "noUncheckedSideEffectImports": true,
     "types": [
       "node"

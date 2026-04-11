@@ -6,24 +6,36 @@
   "engines": {
     "node": ">=24.0.0"
   },
+  "dependencies": {
+    "@clover/cli": "workspace:*",
+    "@clover/eslint-config": "workspace:*",
+    "@clover/eslint-plugin": "workspace:*",
+    "@clover/protocol": "workspace:*",
+    "@clover/std": "workspace:*",
+    "@clover/tsconfig": "workspace:*",
+    "@clover/zod": "workspace:*"
+  },
   "scripts": {
-    "clean:generated": "node ./scripts/clean-generated-sources.mjs",
-    "build": "pnpm run clean:generated && pnpm --filter @clover/protocol run build && pnpm --filter @clover/std run build && pnpm --filter @clover/zod run build && pnpm --filter @clover/cli run build && pnpm --filter @clover/eslint-plugin run build",
-    "lint": "tsx ./node_modules/eslint/bin/eslint.js packages scripts bench eslint.config.js vitest.config.ts --max-warnings=0",
-    "bench": "pnpm build && node ./bench/index.mjs",
-    "typecheck": "pnpm exec tsc -b tsconfig.json --pretty false",
-    "test": "vitest run",
-    "test:coverage": "vitest run --configLoader native --coverage"
+    "build": "python ./scripts/workflow.py build",
+    "lint": "python ./scripts/workflow.py lint",
+    "bench": "python ./scripts/workflow.py bench",
+    "test:system": "python ./scripts/workflow.py test-system",
+    "release:check": "python ./scripts/workflow.py release-check",
+    "typecheck": "python ./scripts/workflow.py typecheck",
+    "test": "python ./scripts/workflow.py test",
+    "test:coverage": "python ./scripts/workflow.py test-coverage"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.0.0",
     "@types/node": "25.6.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "@vitest/coverage-v8": "4.1.4",
-    "eslint": "^9.0.0",
+    "dts-bundle-generator": "^9.5.1",
     "esbuild": "0.28.0",
+    "eslint": "^9.0.0",
+    "jiti": "^2.6.1",
     "tinybench": "2.9.0",
-    "typescript": "6.0.2",
     "tsx": "4.20.6",
+    "typescript": "6.0.2",
     "vitest": "4.1.4",
     "zod": "4.3.6"
   }

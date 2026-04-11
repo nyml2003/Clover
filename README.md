@@ -33,6 +33,9 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 - `bench/` 先对真实 API 做最小 benchmark，不再只保留占位骨架
 - 核心路径禁 `throw` / `try-catch` / `class` / `this`
 - 高版本 ES 目标，尽量保留现代语法，让引擎直接优化
+- `@clover/std` 现在已经覆盖 URL / 路径 / 查询字符串解析、轻量解析器组合子、安全类型转换和不可变数据操作
+- 仓库源码层不再保留 `.js` / `.mjs` 文件，统一使用 TypeScript 源文件和构建产物分离
+- 开发期维护脚本统一改为 Python，构建产物统一收敛到 `dist/index.js` 和 `dist/index.d.ts`
 
 当前包状态：
 

@@ -6,11 +6,13 @@
     "README.md",
     "base.json",
     "library.json",
-    "node-cli.json"
+    "node-cli.json",
+    "workspace.json"
   ],
   "exports": {
     "./base.json": "./base.json",
     "./library.json": "./library.json",
-    "./node-cli.json": "./node-cli.json"
+    "./node-cli.json": "./node-cli.json",
+    "./workspace.json": "./workspace.json"
   }
 }

@@ -42,3 +42,6 @@ jobs:
 
       - name: Run build
         run: pnpm build
+
+      - name: Run system verification
+        run: pnpm test:system

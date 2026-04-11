@@ -17,3 +17,6 @@
 - [v8-design.md](v8-design.md)：运行时与 V8 导向设计约束
 - [stdlib-spec.md](stdlib-spec.md)：标准库边界与能力规划
 - [project-structure.md](project-structure.md)：仓库结构与依赖方向设计
+- [consumption-policy.md](consumption-policy.md)：包消费定位与稳定面说明
+- [versioning-policy.md](versioning-policy.md)：版本和 breaking change 判断规则
+- [release-checklist.md](release-checklist.md)：发布前统一检查清单

@@ -21,10 +21,12 @@
 1. `README.md`
 2. `docs/README.md`
 3. `docs/architecture/README.md`
-4. `docs/foundation/sdk-spec.md`
-5. `docs/foundation/v8-design.md`
-6. `docs/foundation/stdlib-spec.md`
-7. `docs/foundation/project-structure.md`
+4. `docs/foundation/consumption-policy.md`
+5. `docs/foundation/versioning-policy.md`
+6. `docs/foundation/sdk-spec.md`
+7. `docs/foundation/v8-design.md`
+8. `docs/foundation/stdlib-spec.md`
+9. `docs/foundation/project-structure.md`
 
 把 Clover 理解成五层：
 
@@ -47,13 +49,14 @@
 - 运行时代码避免 `class`、`this`、`delete`、`for...in`、`==`
 - 保持对象 shape 稳定，不要引入动态字段抖动
 - 不要让 `zod` 泄漏进核心运行时语义，Zod 属于边界层
-- 不要把生成物写回 `src/`；运行时产物进 `dist/`，声明进 `types/`
+- 不要把生成物写回 `src/`；运行时产物和声明都只进入 `dist/`
 
-当前已知例外：
+源码层约束补充：
 
-- `packages/std/src/url/index.ts` 里仍有部分 URL API 暴露 `null`
-
-把这类情况视为历史债务，不要把它当成新增 API 的模板。
+- 仓库源码不保留 `.js` / `.mjs` 文件
+- 仓库维护脚本统一使用 Python
+- bench、配置和治理层源码统一使用 TypeScript
+- `.js` 只允许出现在构建产物、类型导入后缀或运行时出口路径里
 
 ## 4. 变更分类
 
@@ -132,7 +135,9 @@
 2. `pnpm lint`
 3. `pnpm typecheck`
 4. `pnpm build`
-5. `pnpm bench`，仅在性能敏感改动时需要
+5. `pnpm test:system`
+6. `pnpm bench`，仅在性能敏感改动时需要
+7. `pnpm release:check`，仅在发布前或稳定快照前需要
 
 当前仓库已经有最小 CI，会按安装、测试、lint、typecheck、build 的顺序做基础验证。
 

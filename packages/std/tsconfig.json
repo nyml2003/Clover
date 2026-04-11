@@ -1,11 +1,4 @@
 {
-  "extends": "../../packages/tsconfig/library.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "declarationDir": "types",
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/.tsbuildinfo"
-  },
-  "references": [{ "path": "../protocol" }],
+  "extends": "../../packages/tsconfig/workspace.json",
   "include": ["src/**/*.ts"]
 }

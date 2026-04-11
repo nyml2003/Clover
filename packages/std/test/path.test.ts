@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizePathSegments } from "@clover/std";
+import { joinPathSegments, normalizePathSegments, parsePath, splitPathSegments } from "@clover/std";
 
 describe("@clover/std path", () => {
   it("normalizes relative paths by removing dot segments", () => {
@@ -23,5 +23,27 @@ describe("@clover/std path", () => {
   it("returns dot for empty relative paths", () => {
     expect(normalizePathSegments("")).toBe(".");
     expect(normalizePathSegments("./")).toBe(".");
+  });
+
+  it("splits normalized path segments and joins them again", () => {
+    expect(splitPathSegments("/a/b/c")).toEqual(["a", "b", "c"]);
+    expect(splitPathSegments("./")).toEqual([]);
+    expect(joinPathSegments(["a", "b", "c"])).toBe("a/b/c");
+    expect(joinPathSegments(["a", "b"], true, true)).toBe("/a/b/");
+  });
+
+  it("parses path metadata as a fixed-shape object", () => {
+    expect(parsePath("/a/./b/../c/")).toEqual({
+      isAbsolute: true,
+      hasTrailingSlash: true,
+      normalized: "/a/c/",
+      segments: ["a", "c"]
+    });
+    expect(parsePath("./")).toEqual({
+      isAbsolute: false,
+      hasTrailingSlash: false,
+      normalized: ".",
+      segments: []
+    });
   });
 });

@@ -5,11 +5,17 @@
   "type": "module",
   "files": [
     "README.md",
-    "index.js",
-    "shared.js"
+    "dist"
   ],
   "exports": {
-    ".": "./index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "python ../../scripts/package_tasks.py build",
+    "typecheck": "python ../../scripts/package_tasks.py typecheck"
   },
   "dependencies": {
     "@clover/eslint-plugin": "workspace:*",

@@ -36,6 +36,9 @@
 - [foundation/stdlib-spec.md](foundation/stdlib-spec.md)
 - [foundation/v8-design.md](foundation/v8-design.md)
 - [foundation/project-structure.md](foundation/project-structure.md)
+- [foundation/consumption-policy.md](foundation/consumption-policy.md)
+- [foundation/versioning-policy.md](foundation/versioning-policy.md)
+- [foundation/release-checklist.md](foundation/release-checklist.md)
 
 入口：
 

@@ -26,6 +26,11 @@
 
 这意味着 Clover 当前不是“所有工作区包都准备对外稳定发布”，而是已经开始出现内外层次。
 
+这一层次现在已经被显式写进：
+
+- `docs/foundation/consumption-policy.md`
+- 各包自己的 `README.md`
+
 基础规范文档现在已收敛到 `docs/foundation/`：
 
 - `foundation/sdk-spec.md`
