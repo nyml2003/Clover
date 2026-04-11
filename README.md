@@ -13,11 +13,10 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 
 文档入口：
 
+- [agent.md](agent.md)
+- [docs/README.md](docs/README.md)
 - [docs/architecture/README.md](docs/architecture/README.md)
-- [docs/sdk-spec.md](docs/sdk-spec.md)
-- [docs/v8-design.md](docs/v8-design.md)
-- [docs/stdlib-spec.md](docs/stdlib-spec.md)
-- [docs/project-structure.md](docs/project-structure.md)
+- [docs/foundation/README.md](docs/foundation/README.md)
 
 当前方向：
 
@@ -34,3 +33,8 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 - `bench/` 先对真实 API 做最小 benchmark，不再只保留占位骨架
 - 核心路径禁 `throw` / `try-catch` / `class` / `this`
 - 高版本 ES 目标，尽量保留现代语法，让引擎直接优化
+
+当前包状态：
+
+- 当前对外消费面以 `@clover/protocol` 和 `@clover/std` 为主
+- `@clover/zod`、`@clover/cli`、`@clover/eslint-plugin`、`@clover/eslint-config`、`@clover/tsconfig` 目前仍按仓库内配套能力维护

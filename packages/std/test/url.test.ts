@@ -103,7 +103,7 @@ describe("@clover/std url", () => {
     expect(normalizeUrl("HTTPS://Example.COM:443/docs?q=1")).toEqual({
       scheme: "https",
       host: "example.com",
-      port: null,
+      port: None,
       path: "/docs",
       query: "q=1",
       normalizedHref: "https://example.com/docs?q=1"
@@ -125,16 +125,16 @@ describe("@clover/std url", () => {
     expect(normalizeUrl("http://example.com")).toEqual({
       scheme: "http",
       host: "example.com",
-      port: null,
+      port: None,
       path: "/",
-      query: null,
+      query: None,
       normalizedHref: "http://example.com/"
     });
 
     expect(normalizeUrl("http://example.com?debug=1")).toEqual({
       scheme: "http",
       host: "example.com",
-      port: null,
+      port: None,
       path: "/",
       query: "debug=1",
       normalizedHref: "http://example.com/?debug=1"
@@ -158,6 +158,10 @@ describe("@clover/std url", () => {
       "The port must be an integer between 1 and 65535."
     );
     expect(explainInvalidUrl("http:///path")).toBe("A host is required after the scheme.");
+  });
+
+  it("returns None when explainInvalidUrl receives a valid URL", () => {
+    expect(explainInvalidUrl("https://example.com/docs")).toBe(None);
   });
 
   it("parses query strings into fixed-shape entries", () => {

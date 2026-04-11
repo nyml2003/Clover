@@ -63,9 +63,9 @@ export type SupportedScheme = "http" | "https";
 export type NormalizedUrl = {
   scheme: SupportedScheme;
   host: string;
-  port: number | null;
+  port: Option<SmiInt>;
   path: string;
-  query: string | null;
+  query: Option<string>;
   normalizedHref: string;
 };
 
@@ -74,7 +74,7 @@ type ParsedUrlCore = {
   hostStart: number;
   hostEnd: number;
   hostHasUppercase: boolean;
-  port: number | null;
+  port: Option<SmiInt>;
   pathStart: number;
   pathEnd: number;
   queryStart: number;
@@ -278,7 +278,7 @@ function parseUrlCore(
   let labelLength = 0;
   let lastWasHyphen = false;
 
-  let port: number | null = null;
+  let port: Option<SmiInt> = None;
   let portValue = 0;
   let hasPortDigits = false;
 
@@ -483,7 +483,7 @@ function parseUrlCore(
         return createNormalizeUrlError(ERR_PORT_RANGE);
       }
 
-      port = portValue;
+      port = portValue as SmiInt;
 
       if (code === COLON) {
         return createNormalizeUrlError(ERR_PORT_SIMPLE);
@@ -569,7 +569,7 @@ function parseUrlCore(
       return createNormalizeUrlError(ERR_PORT_RANGE);
     }
 
-    port = portValue;
+    port = portValue as SmiInt;
   } else if (state === 5) {
     pathEnd = length;
   }
@@ -605,16 +605,16 @@ export function normalizeUrl(
   const normalizedPort =
     parsed.scheme === "http"
       ? parsed.port === DEFAULT_PORT_HTTP
-        ? null
+        ? None
         : parsed.port
       : parsed.port === DEFAULT_PORT_HTTPS
-        ? null
+        ? None
         : parsed.port;
   const path = parsed.pathStart === -1 ? "/" : input.substring(parsed.pathStart, parsed.pathEnd);
-  const query = parsed.queryStart === -1 ? null : input.substring(parsed.queryStart, parsed.length);
-  const authorityText = normalizedPort === null ? host : `${host}:${normalizedPort}`;
+  const query = parsed.queryStart === -1 ? None : input.substring(parsed.queryStart, parsed.length);
+  const authorityText = normalizedPort === None ? host : `${host}:${normalizedPort}`;
   const normalizedHref =
-    query === null
+    query === None
       ? `${parsed.scheme}://${authorityText}${path}`
       : `${parsed.scheme}://${authorityText}${path}?${query}`;
 
@@ -628,9 +628,9 @@ export function normalizeUrl(
   };
 }
 
-export function explainInvalidUrl(input: string): string | null {
+export function explainInvalidUrl(input: string): Option<string> {
   const result = normalizeUrl(input);
-  return isError(result) ? result.payload : null;
+  return isError(result) ? result.payload : None;
 }
 
 export function parseQueryString(input: string): readonly QueryParam[] {

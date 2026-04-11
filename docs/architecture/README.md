@@ -23,10 +23,12 @@
 
 配套背景材料：
 
-- [../sdk-spec.md](../sdk-spec.md)
-- [../stdlib-spec.md](../stdlib-spec.md)
-- [../v8-design.md](../v8-design.md)
-- [../project-structure.md](../project-structure.md)
+- [../../agent.md](../../agent.md)
+- [../README.md](../README.md)
+- [../foundation/sdk-spec.md](../foundation/sdk-spec.md)
+- [../foundation/stdlib-spec.md](../foundation/stdlib-spec.md)
+- [../foundation/v8-design.md](../foundation/v8-design.md)
+- [../foundation/project-structure.md](../foundation/project-structure.md)
 
 本目录负责回答三个问题：
 

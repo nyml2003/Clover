@@ -1,3 +1,3 @@
-import config from "./packages/eslint-config/index.js";
+import config from "./packages/eslint-config/workspace.js";
 
 export default config;

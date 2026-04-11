@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "files": [
+    "README.md",
+    "index.js",
+    "shared.js"
+  ],
   "exports": {
     ".": "./index.js"
   },
   "dependencies": {
+    "@clover/eslint-plugin": "workspace:*",
     "@typescript-eslint/parser": "^8.0.0"
   }
 }

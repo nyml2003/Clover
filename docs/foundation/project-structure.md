@@ -26,10 +26,13 @@
 
 ```text
 docs/
-  sdk-spec.md
-  stdlib-spec.md
-  v8-design.md
-  project-structure.md
+  README.md
+  architecture/
+  foundation/
+    sdk-spec.md
+    stdlib-spec.md
+    v8-design.md
+    project-structure.md
 
 packages/
   protocol/
@@ -47,7 +50,8 @@ scripts/
 
 说明：
 
-- `docs/` 放规范与设计文档
+- `docs/architecture/` 放当前架构知识库
+- `docs/foundation/` 放基础规范与设计基线
 - `packages/` 放可发布或可复用的工作区包
 - `examples/` 放最小可运行示例
 - `bench/` 放跨包 benchmark

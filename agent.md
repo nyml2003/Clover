@@ -19,11 +19,12 @@
 进入仓库后，优先按这个顺序建立上下文：
 
 1. `README.md`
-2. `docs/architecture/README.md`
-3. `docs/sdk-spec.md`
-4. `docs/v8-design.md`
-5. `docs/stdlib-spec.md`
-6. `docs/project-structure.md`
+2. `docs/README.md`
+3. `docs/architecture/README.md`
+4. `docs/foundation/sdk-spec.md`
+5. `docs/foundation/v8-design.md`
+6. `docs/foundation/stdlib-spec.md`
+7. `docs/foundation/project-structure.md`
 
 把 Clover 理解成五层：
 
@@ -129,14 +130,11 @@
 
 1. `pnpm test`
 2. `pnpm lint`
-3. `pnpm build`
-4. `pnpm typecheck`
+3. `pnpm typecheck`
+4. `pnpm build`
 5. `pnpm bench`，仅在性能敏感改动时需要
 
-注意：
-
-- 当前仓库里的 `pnpm typecheck` 还不能稳定地作为 fresh checkout 的第一道验证
-- 在这点修好之前，不要把 `typecheck` 当成最前面的轻量检查
+当前仓库已经有最小 CI，会按安装、测试、lint、typecheck、build 的顺序做基础验证。
 
 ### 第七步：收尾前复查
 
@@ -160,11 +158,11 @@
 
 当前仓库的优先事项：
 
-1. 让根级 `typecheck` 不依赖已有构建产物
-2. 收敛 std 对外 API 里残留的 `null`
-3. 解除 `@clover/eslint-config` 对 plugin 源码路径的直接依赖
-4. 明确哪些 workspace 包是内部用，哪些打算对外消费
-5. 继续把更多设计主张工具化，而不是只写在文档里
+1. 明确哪些 workspace 包是内部用，哪些打算对外消费
+2. 继续把更多设计主张工具化，而不是只写在文档里
+3. 把最小 CI 扩展成更完整的系统级和发布前验证
+4. 建立更稳定的 benchmark 与集成验证基线
+5. 明确 release、版本和 breaking change 治理
 
 ## 7. 审查清单
 
@@ -175,7 +173,7 @@
 - 错误协议和空值协议仍然一致
 - 没有手改 `src/` 里的生成物
 - `build`、`lint`、`test` 仍然能过
-- `typecheck` 已在 `build` 之后执行
+- `typecheck` 已执行
 - 设计或行为变化时，文档已同步
 - 如果触及解析、分支、分配或热路径，已经考虑 benchmark
 

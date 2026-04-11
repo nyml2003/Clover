@@ -19,11 +19,18 @@
 - 约束治理：tsconfig 预设、ESLint plugin、ESLint config
 - 维护链路：测试、覆盖率、benchmark、构建脚本
 
-现有根文档仍以规范说明为主：
+按当前 `package.json` 状态看，仓库已经形成一条初步的消费边界：
 
-- `sdk-spec.md`
-- `stdlib-spec.md`
-- `v8-design.md`
-- `project-structure.md`
+- `@clover/protocol` 与 `@clover/std` 是当前最接近公开消费面的基础运行时层
+- `@clover/zod`、`@clover/cli`、`@clover/eslint-plugin`、`@clover/eslint-config`、`@clover/tsconfig` 仍保留为仓库内配套能力
+
+这意味着 Clover 当前不是“所有工作区包都准备对外稳定发布”，而是已经开始出现内外层次。
+
+基础规范文档现在已收敛到 `docs/foundation/`：
+
+- `foundation/sdk-spec.md`
+- `foundation/stdlib-spec.md`
+- `foundation/v8-design.md`
+- `foundation/project-structure.md`
 
 它们提供设计背景，但此前缺少一套把“愿景、现实、问题、演进”串起来的总览文档。

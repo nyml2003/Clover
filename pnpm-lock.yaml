@@ -53,6 +53,9 @@ importers:
 
   packages/eslint-config:
     dependencies:
+      '@clover/eslint-plugin':
+        specifier: workspace:*
+        version: link:../eslint-plugin
       '@typescript-eslint/parser':
         specifier: ^8.0.0
         version: 8.58.1(eslint@9.39.4)(typescript@6.0.2)

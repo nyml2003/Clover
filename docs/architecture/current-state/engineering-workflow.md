@@ -9,6 +9,14 @@
 - `pnpm typecheck`
 - `pnpm bench`
 
+仓库现在还带有一条最小 CI 流水线，覆盖：
+
+- 安装
+- `pnpm test`
+- `pnpm lint`
+- `pnpm typecheck`
+- `pnpm build`
+
 ## 1. 构建方式
 
 当前构建采用两段式：
@@ -60,7 +68,7 @@
 
 - `pnpm test` 通过
 - `pnpm lint` 通过
+- `pnpm typecheck` 在没有 `dist/` 产物时也能独立通过
 - `pnpm build` 通过
-- `pnpm typecheck` 在已有构建产物的前提下通过
 
-这说明当前工程链路已经可用，但不同验证命令之间仍存在一定顺序依赖，详见后面的 `issues-and-roadmap/`。
+这说明当前工程链路已经具备基础自闭环能力，后续重点不再是修根级 `typecheck`，而是扩大系统级验证深度与发布准备度。

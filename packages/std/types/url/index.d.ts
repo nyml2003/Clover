@@ -25,14 +25,14 @@ export type SupportedScheme = "http" | "https";
 export type NormalizedUrl = {
     scheme: SupportedScheme;
     host: string;
-    port: number | null;
+    port: Option<SmiInt>;
     path: string;
-    query: string | null;
+    query: Option<string>;
     normalizedHref: string;
 };
 export declare function parseHostPort(input: string): Result<ParsedHostPort, ParseHostPortErrorCodeValue, ParseHostPortErrorPayload>;
 export declare function normalizeUrl(input: string): Result<NormalizedUrl, typeof NormalizeUrlErrorCode.InvalidUrl, NormalizeUrlErrorPayload>;
-export declare function explainInvalidUrl(input: string): string | null;
+export declare function explainInvalidUrl(input: string): Option<string>;
 export declare function parseQueryString(input: string): readonly QueryParam[];
 export declare function buildQueryString(params: readonly QueryParam[]): string;
 export {};

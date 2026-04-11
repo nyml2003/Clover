@@ -90,8 +90,8 @@ function normalizeWithStdUrl(input) {
 function normalizeWithNodeUrl(input) {
   const parsed = new URL(input);
   const scheme = parsed.protocol === "https:" ? "https" : "http";
-  const port = parsed.port === "" ? null : Number(parsed.port);
-  const query = parsed.search === "" ? null : parsed.search.substring(1);
+  const port = parsed.port === "" ? None : Number(parsed.port);
+  const query = parsed.search === "" ? None : parsed.search.substring(1);
 
   return {
     scheme,
