@@ -22,7 +22,6 @@ export type CliErrorPayload = {
   reason: string;
   usage: string;
 };
-
 export type CliRenderSuccess = {
   exitCode: number;
   stdout: string;

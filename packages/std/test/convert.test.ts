@@ -1,4 +1,4 @@
-import { None, isError } from "@clover/protocol";
+import { isError } from "@clover/protocol";
 import { describe, expect, it } from "vitest";
 
 import {

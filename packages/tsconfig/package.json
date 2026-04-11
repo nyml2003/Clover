@@ -14,5 +14,8 @@
     "./library.json": "./library.json",
     "./node-cli.json": "./node-cli.json",
     "./workspace.json": "./workspace.json"
+  },
+  "scripts": {
+    "lint": "python ../../scripts/package_tasks.py lint"
   }
 }

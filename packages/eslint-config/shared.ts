@@ -1,4 +1,6 @@
+import js from "@eslint/js";
 import parser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import type { ESLint } from "eslint";
 
 type RuleLevel = "off" | "warn" | "error";
@@ -24,9 +26,34 @@ const sharedCoreRules = {
   "clover/no-loose-equality": "error"
 } satisfies Record<string, RuleLevel>;
 
+const baseTsRules = {
+  ...js.configs.recommended.rules,
+  "no-redeclare": "off",
+  "no-undef": "off",
+  "no-unused-vars": "off",
+  "@typescript-eslint/no-redeclare": "off",
+  "@typescript-eslint/no-unused-vars": [
+    "error",
+    {
+      argsIgnorePattern: "^_",
+      varsIgnorePattern: "^_",
+      caughtErrorsIgnorePattern: "^_"
+    }
+  ],
+  "@typescript-eslint/consistent-type-imports": [
+    "error",
+    {
+      prefer: "type-imports",
+      disallowTypeAnnotations: false
+    }
+  ],
+  "@typescript-eslint/no-explicit-any": "error"
+} satisfies Record<string, unknown>;
+
 export function defineCloverConfig(clover: ESLint.Plugin) {
   const pluginSet = {
-    clover
+    clover,
+    "@typescript-eslint": tsPlugin
   };
 
   const library: FlatConfig[] = [
@@ -39,6 +66,7 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
+        ...baseTsRules,
         ...sharedCoreRules,
         "clover/no-optional-properties": "error",
         "clover/no-core-exceptions": "error",
@@ -50,6 +78,7 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
+        ...baseTsRules,
         ...sharedCoreRules,
         "clover/no-optional-properties": "error",
         "clover/no-core-exceptions": "off",
@@ -64,6 +93,7 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
+        ...baseTsRules,
         ...sharedCoreRules,
         "clover/no-core-zod-import": "off"
       }
@@ -73,6 +103,7 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
+        ...baseTsRules,
         ...sharedCoreRules,
         "clover/no-core-exceptions": "error",
         "clover/no-optional-properties": "error",
@@ -87,6 +118,7 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
+        ...baseTsRules,
         ...sharedErrorRules,
         "clover/no-loose-equality": "error"
       }
@@ -101,7 +133,11 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
         "bench/**/*.ts",
         "tests/**/*.ts"
       ],
-      languageOptions: tsLanguageOptions
+      languageOptions: tsLanguageOptions,
+      plugins: pluginSet,
+      rules: {
+        ...baseTsRules
+      }
     }
   ];
 

@@ -36,6 +36,9 @@ def typecheck_all() -> None:
 
 
 def lint_all() -> None:
+    for package_name in PACKAGES + ["@clover/tsconfig"]:
+        run(["pnpm", "--filter", package_name, "run", "lint"])
+
     run(
         [
             "pnpm",
@@ -43,7 +46,6 @@ def lint_all() -> None:
             "eslint",
             "--config",
             "packages/eslint-config/workspace.ts",
-            "packages",
             "bench",
             "tests",
             "--max-warnings=0",

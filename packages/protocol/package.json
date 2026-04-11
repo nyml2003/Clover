@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "python ../../scripts/package_tasks.py build",
+    "lint": "python ../../scripts/package_tasks.py lint",
     "typecheck": "python ../../scripts/package_tasks.py typecheck"
   }
 }

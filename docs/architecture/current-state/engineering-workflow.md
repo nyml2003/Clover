@@ -11,6 +11,8 @@
 - `pnpm bench`
 - `pnpm release:check`
 
+同时，每个工作区包现在都提供统一的 `pnpm --filter <package> run lint` 入口，使用同一套 ESLint 配置。
+
 仓库现在还带有一条最小 CI 流水线，覆盖：
 
 - 安装

@@ -6,7 +6,7 @@ import {
   type Option,
   type Result
 } from "@clover/protocol";
-import { z } from "zod";
+import type { z } from "zod";
 
 export const ZodErrorCode = {
   ParseFailed: 2001,

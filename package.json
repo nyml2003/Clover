@@ -26,7 +26,9 @@
     "test:coverage": "python ./scripts/workflow.py test-coverage"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/node": "25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.0.0",
     "@vitest/coverage-v8": "4.1.4",
     "dts-bundle-generator": "^9.5.1",
