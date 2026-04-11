@@ -69,6 +69,23 @@ describe("@clover/example-url-normalizer", () => {
     );
   });
 
+  it("rejects empty hosts and malformed host labels", () => {
+    expect(explainInvalidUrl("http:///path")).toBe("A host is required after the scheme.");
+    expect(explainInvalidUrl("http://-bad.example")).toBe("The host must use simple ASCII labels.");
+    expect(explainInvalidUrl("http://bad-.example")).toBe("The host must use simple ASCII labels.");
+    expect(explainInvalidUrl("http://example..com")).toBe("The host must use simple ASCII labels.");
+  });
+
+  it("rejects malformed ports before building the normalized URL", () => {
+    expect(explainInvalidUrl("https://example.com:")).toBe("Port digits are required after ':'.");
+    expect(explainInvalidUrl("https://example.com:80:90")).toBe(
+      "Only simple host:port authorities are supported."
+    );
+    expect(explainInvalidUrl("https://example.com:0")).toBe(
+      "The port must be an integer between 1 and 65535."
+    );
+  });
+
   it("prints normalized JSON from the CLI", () => {
     const result = spawnSync(process.execPath, [cliPath, "https://Example.com:443/docs?q=1"], {
       encoding: "utf8"
@@ -103,6 +120,8 @@ describe("@clover/example-url-normalizer", () => {
 
     expect(result.status).toBe(0);
     expect(result.stderr).toBe("");
+    expect(result.stdout).toContain("benchmark-config:");
+    expect(result.stdout).toContain("warmupIterations=20000");
     expect(result.stdout).toContain("equivalence:");
     expect(result.stdout).toContain("mismatches=0");
     expect(result.stdout).toContain("custom:");

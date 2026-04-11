@@ -33,3 +33,4 @@ pnpm --filter @clover/example-url-normalizer run start -- --bench 200000
 ```
 
 `--bench` 会先校验自定义 parser 和 Node `URL` parser 在内置样本上的输出是否一致，再输出两边的性能数据。
+输出会先打印 `benchmark-config`，其中包含样本数和 warmup 轮数。
