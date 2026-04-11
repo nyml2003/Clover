@@ -3,6 +3,7 @@ from __future__ import annotations
 import pathlib
 import subprocess
 import sys
+import time
 
 
 def normalize_command(command: list[str]) -> list[str]:
@@ -13,7 +14,17 @@ def normalize_command(command: list[str]) -> list[str]:
 
 
 def run(command: list[str]) -> None:
-    subprocess.run(normalize_command(command), check=True)
+    normalized = normalize_command(command)
+
+    for attempt in range(3):
+        completed = subprocess.run(normalized, check=False)
+
+        if completed.returncode == 0:
+            return
+
+        time.sleep(1)
+
+    raise subprocess.CalledProcessError(completed.returncode, normalized)
 
 
 def main() -> int:

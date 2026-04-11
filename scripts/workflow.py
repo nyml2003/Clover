@@ -3,6 +3,7 @@ from __future__ import annotations
 import pathlib
 import subprocess
 import sys
+import time
 
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -21,7 +22,15 @@ def run(command: list[str], cwd: pathlib.Path = ROOT) -> None:
     if sys.platform == "win32" and command[0] == "pnpm":
         command = ["pnpm.cmd", *command[1:]]
 
-    subprocess.run(command, cwd=str(cwd), check=True)
+    for attempt in range(3):
+        completed = subprocess.run(command, cwd=str(cwd), check=False)
+
+        if completed.returncode == 0:
+            return
+
+        time.sleep(1)
+
+    raise subprocess.CalledProcessError(completed.returncode, command)
 
 
 def build_all() -> None:
@@ -106,12 +115,12 @@ def run_bench() -> None:
 
 
 def release_check() -> None:
-    lint_all()
-    typecheck_all()
-    build_all()
-    test_unit()
-    test_system()
-    run(["pnpm", "exec", "tsx", "./bench/index.ts"])
+    run(["pnpm", "lint"])
+    run(["pnpm", "typecheck"])
+    run(["pnpm", "build"])
+    run(["pnpm", "test"])
+    run(["pnpm", "test:system"])
+    run(["pnpm", "bench"])
 
 
 def main() -> int:

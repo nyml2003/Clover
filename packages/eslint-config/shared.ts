@@ -5,9 +5,15 @@ import type { ESLint } from "eslint";
 
 type RuleLevel = "off" | "warn" | "error";
 type FlatConfig = Record<string, unknown>;
+type RuleConfig = RuleLevel | readonly [RuleLevel, ...unknown[]];
 
 const tsLanguageOptions = {
   parser,
+  parserOptions: {
+    projectService: {
+      allowDefaultProject: ["tests/*/*.ts", "bench/*.ts"]
+    }
+  },
   ecmaVersion: "latest",
   sourceType: "module"
 };
@@ -16,15 +22,17 @@ const sharedErrorRules = {
   "clover/no-raw-create-error-code": "error",
   "clover/no-invalid-create-error-payload": "error",
   "clover/no-error-data-property": "error"
-} satisfies Record<string, RuleLevel>;
+} satisfies Record<string, RuleConfig>;
 
 const sharedCoreRules = {
   ...sharedErrorRules,
+  "clover/enforce-import-direction": "error",
+  "clover/max-file-lines": ["error", { max: 300 }],
   "clover/no-delete": "error",
   "clover/no-class-this": "error",
   "clover/no-for-in": "error",
   "clover/no-loose-equality": "error"
-} satisfies Record<string, RuleLevel>;
+} satisfies Record<string, RuleConfig>;
 
 const baseTsRules = {
   ...js.configs.recommended.rules,
@@ -47,10 +55,17 @@ const baseTsRules = {
       disallowTypeAnnotations: false
     }
   ],
+  "@typescript-eslint/explicit-module-boundary-types": "error",
   "@typescript-eslint/no-explicit-any": "error"
 } satisfies Record<string, unknown>;
 
-export function defineCloverConfig(clover: ESLint.Plugin) {
+export function defineCloverConfig(clover: ESLint.Plugin): {
+  library: FlatConfig[];
+  cli: FlatConfig[];
+  tests: FlatConfig[];
+  tooling: FlatConfig[];
+  config: FlatConfig[];
+} {
   const pluginSet = {
     clover,
     "@typescript-eslint": tsPlugin
@@ -60,17 +75,21 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
     {
       files: [
         "packages/protocol/src/**/*.ts",
-        "packages/std/src/**/*.ts",
-        "packages/zod/src/**/*.ts"
+        "packages/std/src/**/*.ts"
       ],
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
       rules: {
         ...baseTsRules,
         ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-array-callback-iteration": "error",
         "clover/no-optional-properties": "error",
         "clover/no-core-exceptions": "error",
-        "clover/no-core-zod-import": "error"
+        "clover/no-core-zod-import": "error",
+        "clover/no-default-export": "error",
+        "clover/no-nullish-core": "error",
+        "clover/no-regexp-runtime": "error"
       }
     },
     {
@@ -80,9 +99,28 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       rules: {
         ...baseTsRules,
         ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-array-callback-iteration": "error",
         "clover/no-optional-properties": "error",
         "clover/no-core-exceptions": "off",
-        "clover/no-core-zod-import": "error"
+        "clover/no-core-zod-import": "error",
+        "clover/no-default-export": "error",
+        "clover/no-nullish-core": "error",
+        "clover/no-regexp-runtime": "error"
+      }
+    },
+    {
+      files: ["packages/zod/src/**/*.ts"],
+      languageOptions: tsLanguageOptions,
+      plugins: pluginSet,
+      rules: {
+        ...baseTsRules,
+        ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-optional-properties": "error",
+        "clover/no-core-exceptions": "error",
+        "clover/no-core-zod-import": "off",
+        "clover/no-default-export": "error"
       }
     }
   ];
@@ -95,19 +133,9 @@ export function defineCloverConfig(clover: ESLint.Plugin) {
       rules: {
         ...baseTsRules,
         ...sharedCoreRules,
-        "clover/no-core-zod-import": "off"
-      }
-    },
-    {
-      files: ["packages/zod/src/**/*.ts"],
-      languageOptions: tsLanguageOptions,
-      plugins: pluginSet,
-      rules: {
-        ...baseTsRules,
-        ...sharedCoreRules,
-        "clover/no-core-exceptions": "error",
-        "clover/no-optional-properties": "error",
-        "clover/no-core-zod-import": "off"
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-core-zod-import": "off",
+        "clover/no-default-export": "error"
       }
     }
   ];

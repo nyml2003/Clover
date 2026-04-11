@@ -1,4 +1,4 @@
 {
   "extends": "../../packages/tsconfig/workspace.json",
-  "include": ["index.ts", "shared.ts"]
+  "include": ["index.ts", "shared.ts", "workspace.ts"]
 }

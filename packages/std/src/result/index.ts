@@ -58,10 +58,16 @@ export function unwrapOr<T, ErrorCode extends number, Payload extends ErrorPaylo
   return isError(result) ? fallback : result;
 }
 
-export function matchResult<T, U, ErrorCode extends number, Payload extends ErrorPayload>(
+export function matchResult<
+  T,
+  UOk,
+  UErr,
+  ErrorCode extends number,
+  Payload extends ErrorPayload
+>(
   result: Result<T, ErrorCode, Payload>,
-  onOk: (value: T) => U,
-  onErr: (error: CloverError<ErrorCode, Payload>) => U
-): U {
+  onOk: (value: NoInfer<T>) => UOk,
+  onErr: (error: CloverError<ErrorCode, Payload>) => UErr
+): UOk | UErr {
   return isError(result) ? onErr(result) : onOk(result);
 }

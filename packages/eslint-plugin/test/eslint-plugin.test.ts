@@ -4,7 +4,12 @@ import parser from "@typescript-eslint/parser";
 
 import plugin from "../src/index.js";
 
-function runRule(ruleName: string, code: string, filePath: string = "test.ts") {
+function runRule(
+  ruleName: string,
+  code: string,
+  filePath: string = "test.ts",
+  ruleOptions?: unknown
+) {
   const linter = new Linter({ configType: "flat" });
 
   return linter.verify(
@@ -20,7 +25,7 @@ function runRule(ruleName: string, code: string, filePath: string = "test.ts") {
         clover: plugin
       },
       rules: {
-        [`clover/${ruleName}`]: "error"
+        [`clover/${ruleName}`]: ruleOptions === undefined ? "error" : ["error", ruleOptions]
       }
     },
     filePath
@@ -104,5 +109,105 @@ describe("@clover/eslint-plugin", () => {
   it("rejects direct zod imports in core packages", () => {
     expect(runRule("no-core-zod-import", "import { z } from 'zod';")).toHaveLength(1);
     expect(runRule("no-core-zod-import", "import { parseWith } from '@clover/zod';")).toHaveLength(0);
+  });
+
+  it("rejects invalid workspace import direction", () => {
+    expect(
+      runRule(
+        "enforce-import-direction",
+        "import { parseWith } from '@clover/zod';",
+        "packages/std/src/file.ts"
+      )
+    ).toHaveLength(1);
+    expect(
+      runRule(
+        "enforce-import-direction",
+        "import { isError } from '@clover/protocol';",
+        "packages/std/src/file.ts"
+      )
+    ).toHaveLength(0);
+  });
+
+  it("rejects oversized files unless they export a single function", () => {
+    const lines = Array.from({ length: 301 }, (_, index) => `const value${index} = ${index};`).join("\n");
+    expect(
+      runRule("max-file-lines", lines, "packages/std/src/too-long.ts", { max: 300 })
+    ).toHaveLength(1);
+
+    const singleFunction = `export function parseHuge(): number {\n${Array.from(
+      { length: 310 },
+      (_, index) => `  const value${index} = ${index};`
+    ).join("\n")}\n  return 1;\n}`;
+    expect(
+      runRule("max-file-lines", singleFunction, "packages/std/src/one-function.ts", { max: 300 })
+    ).toHaveLength(0);
+  });
+
+  it("rejects exported nullish protocol drift in core code", () => {
+    expect(
+      runRule(
+        "no-nullish-core",
+        "export type Shape = { value: string | null };",
+        "packages/std/src/nullish.ts"
+      )
+    ).toHaveLength(1);
+    expect(
+      runRule(
+        "no-nullish-core",
+        "export function read(): string | undefined { return undefined; }",
+        "packages/std/src/nullish.ts"
+      )
+    ).toHaveLength(2);
+  });
+
+  it("rejects callback-based array iteration in core runtime files", () => {
+    expect(
+      runRule(
+        "no-array-callback-iteration",
+        "const result = values.map((value) => value + 1);",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(1);
+    expect(
+      runRule(
+        "no-array-callback-iteration",
+        "for (const value of values) { total += value; }",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(0);
+  });
+
+  it("rejects RegExp in core runtime files", () => {
+    expect(
+      runRule(
+        "no-regexp-runtime",
+        "const matcher = /abc/;",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(1);
+    expect(
+      runRule(
+        "no-regexp-runtime",
+        "const matcher = new RegExp('abc');",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(1);
+  });
+
+  it("rejects default exports in runtime packages", () => {
+    expect(
+      runRule(
+        "no-default-export",
+        "export default function read() { return 1; }",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(1);
+    expect(
+      runRule(
+        "no-default-export",
+        "export function read() { return 1; }",
+        "packages/std/src/runtime.ts"
+      )
+    ).toHaveLength(0);
   });
 });

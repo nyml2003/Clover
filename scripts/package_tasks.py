@@ -3,6 +3,7 @@ from __future__ import annotations
 import pathlib
 import subprocess
 import sys
+import time
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
@@ -15,7 +16,17 @@ def normalize_command(command: list[str]) -> list[str]:
 
 
 def run(command: list[str], cwd: pathlib.Path) -> None:
-    subprocess.run(normalize_command(command), cwd=str(cwd), check=True)
+    normalized = normalize_command(command)
+
+    for attempt in range(3):
+        completed = subprocess.run(normalized, cwd=str(cwd), check=False)
+
+        if completed.returncode == 0:
+            return
+
+        time.sleep(1)
+
+    raise subprocess.CalledProcessError(completed.returncode, normalized)
 
 
 def build_package(cwd: pathlib.Path) -> None:
@@ -53,12 +64,22 @@ def lint_package_internal(cwd: pathlib.Path, fix: bool) -> None:
     if not targets:
         return
 
+    config_path = ROOT / "packages" / "eslint-config" / "dist" / "index.js"
+    if not config_path.exists() and cwd.name != "eslint-config":
+        run(["pnpm", "--filter", "@clover/eslint-config", "run", "build"], ROOT)
+
+    config_argument = (
+        "packages/eslint-config/dist/index.js"
+        if config_path.exists()
+        else "packages/eslint-config/workspace.ts"
+    )
+
     command = [
         "pnpm",
         "exec",
         "eslint",
         "--config",
-        "packages/eslint-config/workspace.ts",
+        config_argument,
         *targets,
         "--max-warnings=0",
     ]
@@ -85,7 +106,7 @@ def unittest_package_internal(cwd: pathlib.Path, coverage: bool) -> None:
     if not test_dir.exists():
         return
 
-    run([sys.executable, str(ROOT / "scripts" / "workflow.py"), "build"], ROOT)
+    run(["pnpm", "build"], ROOT)
 
     test_files = sorted(path.as_posix() for path in test_dir.glob("*.test.ts"))
     if not test_files:

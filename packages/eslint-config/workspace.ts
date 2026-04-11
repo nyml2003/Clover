@@ -1,4 +1,4 @@
-import clover from "../eslint-plugin/src/index.ts";
+import clover from "../eslint-plugin/src/index.js";
 
 import { defineCloverConfig } from "./shared.js";
 
