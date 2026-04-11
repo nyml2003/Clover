@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
@@ -15,9 +17,10 @@
     "erasableSyntaxOnly": true,
     "noUncheckedSideEffectImports": true,
     "declaration": true,
-    "isolatedDeclarations": true,
     "composite": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   }
 }

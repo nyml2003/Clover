@@ -22,6 +22,7 @@ Clover 是一套面向现代 V8 的 TypeScript SDK + 代码规范。
 
 - 类型约束优先于运行时兜底
 - Zod 只停留在边界层，不把 `ZodError` 或原始 schema 输出带进核心域
+- `@clover/zod` 提供通用边界适配：`safeParse -> Result`、`optional/nullable -> None`
 - `Option<T>` 统一建模为 `T | None`
 - `Result<T, E>` 统一建模为 `T | CloverError<E>`
 - 错误对象统一使用固定 shape：`{ __code__: number; data: E }`

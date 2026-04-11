@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "pnpm run build:js && pnpm run build:types",
-    "build:js": "esbuild src/index.ts src/cli.ts --format=esm --platform=node --target=es2023 --packages=external --outdir=dist --outbase=src",
+    "build:js": "esbuild ././src/index.ts ././src/cli.ts ././src/benchmark.ts ././src/errors.ts ././src/parser.ts ././src/parser-core.ts ././src/parser-utils.ts ././src/types.ts --format=esm --platform=node --target=es2023 --packages=external --outdir=dist --outbase=src",
     "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node ./dist/cli.js"

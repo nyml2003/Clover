@@ -2,5 +2,28 @@
   "name": "@clover/zod",
   "version": "0.1.0",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "types", "README.md"],
+  "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "pnpm run clean && pnpm run build:js && pnpm run build:types && pnpm run postbuild",
+    "build:js": "esbuild src/index.ts --bundle --format=esm --platform=node --target=es2023 --packages=external --outfile=dist/index.js",
+    "build:types": "tsc -p tsconfig.json --emitDeclarationOnly --outDir types --tsBuildInfoFile types/.tsbuildinfo",
+    "clean": "node ../../scripts/clean-dist.mjs dist types",
+    "postbuild": "node ../../scripts/clean-dist.mjs dist/index.d.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@clover/protocol": "workspace:*",
+    "@clover/std": "workspace:*",
+    "zod": "4.3.6"
+  }
 }

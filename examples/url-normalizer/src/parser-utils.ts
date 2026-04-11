@@ -1,0 +1,13 @@
+export const COLON = 0x3a;
+export const SLASH = 0x2f;
+export const QUESTION = 0x3f;
+export const HASH = 0x23;
+export const DOT = 0x2e;
+export const HYPHEN = 0x2d;
+export const AT = 0x40;
+export const LEFT_BRACKET = 0x5b;
+export const RIGHT_BRACKET = 0x5d;
+export const ZERO = 0x30;
+export const NINE = 0x39;
+export const DEFAULT_PORT_HTTP = 80;
+export const DEFAULT_PORT_HTTPS = 443;
