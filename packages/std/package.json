@@ -3,65 +3,23 @@
   "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md"],
+  "description": "Type-safe standard library for async streams, parsing, path/url handling, immutable data and Result/Option primitives.",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./async": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./convert": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./guard": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./immutable": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./number": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./object": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./parser": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./path": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./query": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./result": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./string": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./url": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
     }
   },
   "scripts": {
     "build": "python ../../scripts/package_tasks.py build",
+    "prepublishOnly": "pnpm build",
     "lint": "python ../../scripts/package_tasks.py lint",
     "lint:fix": "python ../../scripts/package_tasks.py lint-fix",
     "unittest": "python ../../scripts/package_tasks.py unittest",
@@ -70,5 +28,9 @@
   },
   "dependencies": {
     "@clover/protocol": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
