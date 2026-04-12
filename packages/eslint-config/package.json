@@ -1,5 +1,5 @@
 {
-  "name": "@clover/eslint-config",
+  "name": "@clover.js/eslint-config",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -22,7 +22,7 @@
     "typecheck": "python ../../scripts/package_tasks.py typecheck"
   },
   "dependencies": {
-    "@clover/eslint-plugin": "workspace:*",
+    "@clover.js/eslint-plugin": "workspace:*",
     "@typescript-eslint/parser": "^8.0.0"
   }
 }

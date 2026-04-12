@@ -1,5 +1,5 @@
 {
-  "name": "@clover/std",
+  "name": "@clover.js/std",
   "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
@@ -27,7 +27,7 @@
     "typecheck": "python ../../scripts/package_tasks.py typecheck"
   },
   "dependencies": {
-    "@clover/protocol": "workspace:*"
+    "@clover.js/protocol": "workspace:*"
   },
   "publishConfig": {
     "access": "public",

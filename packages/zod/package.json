@@ -1,10 +1,13 @@
 {
-  "name": "@clover/zod",
+  "name": "@clover.js/zod",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -22,8 +25,8 @@
     "typecheck": "python ../../scripts/package_tasks.py typecheck"
   },
   "dependencies": {
-    "@clover/protocol": "workspace:*",
-    "@clover/std": "workspace:*",
+    "@clover.js/protocol": "workspace:*",
+    "@clover.js/std": "workspace:*",
     "zod": "4.3.6"
   }
 }

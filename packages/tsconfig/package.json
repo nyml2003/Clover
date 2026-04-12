@@ -1,5 +1,5 @@
 {
-  "name": "@clover/tsconfig",
+  "name": "@clover.js/tsconfig",
   "version": "0.1.0",
   "private": true,
   "files": [

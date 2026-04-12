@@ -7,13 +7,13 @@
     "node": ">=24.0.0"
   },
   "dependencies": {
-    "@clover/cli": "workspace:*",
-    "@clover/eslint-config": "workspace:*",
-    "@clover/eslint-plugin": "workspace:*",
-    "@clover/protocol": "workspace:*",
-    "@clover/std": "workspace:*",
-    "@clover/tsconfig": "workspace:*",
-    "@clover/zod": "workspace:*"
+    "@clover.js/cli": "workspace:*",
+    "@clover.js/eslint-config": "workspace:*",
+    "@clover.js/eslint-plugin": "workspace:*",
+    "@clover.js/protocol": "workspace:*",
+    "@clover.js/std": "workspace:*",
+    "@clover.js/tsconfig": "workspace:*",
+    "@clover.js/zod": "workspace:*"
   },
   "scripts": {
     "build": "python ./scripts/workflow.py build",

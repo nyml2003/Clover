@@ -1,9 +1,12 @@
 {
-  "name": "@clover/eslint-plugin",
+  "name": "@clover.js/eslint-plugin",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

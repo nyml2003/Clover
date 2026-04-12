@@ -1,9 +1,12 @@
 {
-  "name": "@clover/protocol",
+  "name": "@clover.js/protocol",
   "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
