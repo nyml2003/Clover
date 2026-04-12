@@ -1,11 +1,13 @@
 import type { Rule } from "eslint";
 
 const ALLOWED_WORKSPACE_IMPORTS: Record<string, readonly string[]> = {
+  automation: ["@clover.js/protocol", "@clover.js/std"],
   protocol: [],
   std: ["@clover.js/protocol"],
   zod: ["@clover.js/protocol", "@clover.js/std"],
   cli: ["@clover.js/protocol", "@clover.js/std", "@clover.js/zod"],
   http: ["@clover.js/protocol", "@clover.js/std", "@clover.js/zod"],
+  "repo-command": ["@clover.js/automation", "@clover.js/cli", "@clover.js/protocol"],
   "eslint-plugin": [],
   "eslint-config": ["@clover.js/eslint-plugin"],
   tsconfig: []

@@ -1,0 +1,31 @@
+{
+  "name": "@clover.js/repo-command",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "python ../../scripts/package_tasks.py build",
+    "lint": "python ../../scripts/package_tasks.py lint",
+    "lint:fix": "python ../../scripts/package_tasks.py lint-fix",
+    "unittest": "python ../../scripts/package_tasks.py unittest",
+    "unittest:coverage": "python ../../scripts/package_tasks.py unittest-coverage",
+    "typecheck": "python ../../scripts/package_tasks.py typecheck"
+  },
+  "dependencies": {
+    "@clover.js/automation": "workspace:*",
+    "@clover.js/cli": "workspace:*"
+  }
+}

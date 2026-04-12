@@ -5,7 +5,9 @@
     "baseUrl": "../..",
     "ignoreDeprecations": "6.0",
     "paths": {
+      "@clover.js/automation": ["packages/automation/src/index.ts"],
       "@clover.js/protocol": ["packages/protocol/src/index.ts"],
+      "@clover.js/repo-command": ["packages/repo-command/src/index.ts"],
       "@clover.js/std": ["packages/std/src/index.ts"],
       "@clover.js/zod": ["packages/zod/src/index.ts"],
       "@clover.js/cli": ["packages/cli/src/index.ts"],

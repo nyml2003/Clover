@@ -15,6 +15,12 @@
 - `clean_paths.py`：按路径清理 `dist/`、`types/` 等生成物
 - `clean_generated_sources.py`：清理误落进 `packages/*/src` 的 `.js` / `.d.ts` 生成文件
 
+并行中的新入口：
+
+- 根 `package.json` 现在还提供 `repo`、`repo:lint`、`repo:release-check`，它们走 `@clover.js/repo-command`
+- 当前 `lint` 已经切到新链路，`lint:legacy` 保留作回退和内部转发
+- `build`、`test`、`release-check` 目前仍以 Python 主入口为准
+
 构建补充约定：
 
 - 运行时代码和声明文件都只进入 `dist/`

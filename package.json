@@ -7,9 +7,11 @@
     "node": ">=24.0.0"
   },
   "dependencies": {
+    "@clover.js/automation": "workspace:*",
     "@clover.js/cli": "workspace:*",
     "@clover.js/eslint-config": "workspace:*",
     "@clover.js/eslint-plugin": "workspace:*",
+    "@clover.js/repo-command": "workspace:*",
     "@clover.js/protocol": "workspace:*",
     "@clover.js/std": "workspace:*",
     "@clover.js/tsconfig": "workspace:*",
@@ -18,8 +20,13 @@
   },
   "scripts": {
     "build": "python ./scripts/workflow.py build",
-    "lint": "python ./scripts/workflow.py lint",
+    "build:legacy": "python ./scripts/workflow.py build",
+    "lint": "pnpm repo:lint",
+    "lint:legacy": "python ./scripts/workflow.py lint",
     "bench": "python ./scripts/workflow.py bench",
+    "repo": "pnpm exec tsx ./packages/repo-command/src/main.ts",
+    "repo:lint": "pnpm exec tsx ./packages/repo-command/src/main.ts lint",
+    "repo:release-check": "pnpm exec tsx ./packages/repo-command/src/main.ts release-check",
     "test:system": "python ./scripts/workflow.py test-system",
     "release:check": "python ./scripts/workflow.py release-check",
     "typecheck": "python ./scripts/workflow.py typecheck",

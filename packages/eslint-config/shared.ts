@@ -139,6 +139,18 @@ export function defineCloverConfig(clover: ESLint.Plugin): {
       }
     },
     {
+      files: ["packages/automation/src/**/*.ts"],
+      languageOptions: tsLanguageOptions,
+      plugins: pluginSet,
+      rules: {
+        ...baseTsRules,
+        ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-core-zod-import": "error",
+        "clover/no-default-export": "error"
+      }
+    },
+    {
       files: ["packages/http/src/**/*.ts"],
       languageOptions: tsLanguageOptions,
       plugins: pluginSet,
@@ -147,6 +159,18 @@ export function defineCloverConfig(clover: ESLint.Plugin): {
         ...sharedCoreRules,
         "@typescript-eslint/switch-exhaustiveness-check": "error",
         "clover/no-core-zod-import": "off",
+        "clover/no-default-export": "error"
+      }
+    },
+    {
+      files: ["packages/repo-command/src/**/*.ts"],
+      languageOptions: tsLanguageOptions,
+      plugins: pluginSet,
+      rules: {
+        ...baseTsRules,
+        ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-core-zod-import": "error",
         "clover/no-default-export": "error"
       }
     }

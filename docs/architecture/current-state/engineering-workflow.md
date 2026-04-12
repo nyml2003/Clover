@@ -15,6 +15,23 @@
 
 构建默认值现在显式收敛在根 `package.json#cloverBuildDefaults`，如果单个包需要特殊打包参数，则通过包内 `package.json#cloverBuild` 覆盖。
 
+仓库现在已经开始用一条新的入口链路：
+
+- `pnpm lint` 已经切到 `repo-command -> automation -> lint:legacy`
+
+同时还保留一组并行的新入口，用来继续试跑 `@clover.js/automation + @clover.js/repo-command`：
+
+- `pnpm repo -- build <package>`
+- `pnpm repo -- test <package>`
+- `pnpm repo:lint`
+- `pnpm repo:release-check`
+
+当前状态是：
+
+- `lint` 已开始走新链路
+- `build`、`test`、`release-check` 仍保留 Python 主入口
+- `lint:legacy` 保留作回退和内部转发
+
 工作区包级统一入口现在固定为：
 
 - `build`

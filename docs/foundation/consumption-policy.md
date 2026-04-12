@@ -12,7 +12,9 @@
 | `@clover.js/std` | 稳定运行时层 | 可以作为首批对外消费面 |
 | `@clover.js/zod` | 孵化中的边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
 | `@clover.js/cli` | 孵化中的 CLI 边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
+| `@clover.js/automation` | 孵化中的自动化基座 | 暂不承诺稳定，优先仓库内和受控项目使用 |
 | `@clover.js/http` | 孵化中的 HTTP 请求响应边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
+| `@clover.js/repo-command` | 孵化中的场景入口层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
 | `@clover.js/eslint-plugin` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
 | `@clover.js/eslint-config` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
 | `@clover.js/tsconfig` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |

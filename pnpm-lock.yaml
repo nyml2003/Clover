@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@clover.js/automation':
+        specifier: workspace:*
+        version: link:packages/automation
       '@clover.js/cli':
         specifier: workspace:*
         version: link:packages/cli
@@ -23,6 +26,9 @@ importers:
       '@clover.js/protocol':
         specifier: workspace:*
         version: link:packages/protocol
+      '@clover.js/repo-command':
+        specifier: workspace:*
+        version: link:packages/repo-command
       '@clover.js/std':
         specifier: workspace:*
         version: link:packages/std
@@ -88,6 +94,15 @@ importers:
         specifier: 4.3.6
         version: 4.3.6
 
+  packages/automation:
+    dependencies:
+      '@clover.js/protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@clover.js/std':
+        specifier: workspace:*
+        version: link:../std
+
   packages/cli:
     dependencies:
       '@clover.js/protocol':
@@ -124,6 +139,15 @@ importers:
         version: link:../zod
 
   packages/protocol: {}
+
+  packages/repo-command:
+    dependencies:
+      '@clover.js/automation':
+        specifier: workspace:*
+        version: link:../automation
+      '@clover.js/cli':
+        specifier: workspace:*
+        version: link:../cli
 
   packages/std:
     dependencies:

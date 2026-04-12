@@ -205,11 +205,13 @@ HTTP 线负责：
 
 这一层负责工程任务，不负责业务输入输出。
 
+更具体的设计见 `automation-base.md`。
+
 长期应该承载：
 
 - 子进程执行
 - 任务定义
-- 任务依赖图
+- 按配置和规约求解出的任务图
 - workspace 发现
 - build / lint / test / bench / release-check 编排
 - 代码生成
@@ -257,7 +259,9 @@ HTTP 线负责：
 - `@clover.js/std`
 - `@clover.js/zod`
 - `@clover.js/cli`
+- `@clover.js/automation`
 - `@clover.js/http`
+- `@clover.js/repo-command`
 - `@clover.js/tsconfig`
 - `@clover.js/eslint-plugin`
 - `@clover.js/eslint-config`
@@ -265,7 +269,6 @@ HTTP 线负责：
 
 当前还没有独立长出来的部分：
 
-- `@clover.js` 体系内的自动化基座
 - 统一的场景入口命令
 
 短期判断：
