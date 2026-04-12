@@ -2,12 +2,11 @@ import type { Result } from "@clover/protocol";
 
 import {
   SliceAsyncErrorCode,
+  type SliceAsyncErrorCodeValue,
   type SliceAsyncErrorPayload,
   createSliceAsyncError,
   isValidNonNegativeInteger
 } from "./shared.js";
-
-type SliceAsyncErrorCodeValue = (typeof SliceAsyncErrorCode)[keyof typeof SliceAsyncErrorCode];
 
 export function takeAsync<T>(
   source: AsyncIterable<T>,

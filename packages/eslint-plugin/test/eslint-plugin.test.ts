@@ -10,12 +10,13 @@ function runRule(
   filePath: string = "test.ts",
   ruleOptions?: unknown
 ) {
+  const normalizedFilePath = filePath.replace(/\\/g, "/").replace(/^\/+/, "");
   const linter = new Linter({ configType: "flat" });
 
   return linter.verify(
     code,
     {
-      files: [filePath],
+      files: ["**/*.ts"],
       languageOptions: {
         parser,
         ecmaVersion: "latest",
@@ -28,7 +29,7 @@ function runRule(
         [`clover/${ruleName}`]: ruleOptions === undefined ? "error" : ["error", ruleOptions]
       }
     },
-    filePath
+    normalizedFilePath
   );
 }
 
@@ -116,14 +117,14 @@ describe("@clover/eslint-plugin", () => {
       runRule(
         "enforce-import-direction",
         "import { parseWith } from '@clover/zod';",
-        "packages/std/src/file.ts"
+        "/packages/std/src/file.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "enforce-import-direction",
         "import { isError } from '@clover/protocol';",
-        "packages/std/src/file.ts"
+        "/packages/std/src/file.ts"
       )
     ).toHaveLength(0);
   });
@@ -131,7 +132,7 @@ describe("@clover/eslint-plugin", () => {
   it("rejects oversized files unless they export a single function", () => {
     const lines = Array.from({ length: 301 }, (_, index) => `const value${index} = ${index};`).join("\n");
     expect(
-      runRule("max-file-lines", lines, "packages/std/src/too-long.ts", { max: 300 })
+      runRule("max-file-lines", lines, "/packages/std/src/too-long.ts", { max: 300 })
     ).toHaveLength(1);
 
     const singleFunction = `export function parseHuge(): number {\n${Array.from(
@@ -139,7 +140,7 @@ describe("@clover/eslint-plugin", () => {
       (_, index) => `  const value${index} = ${index};`
     ).join("\n")}\n  return 1;\n}`;
     expect(
-      runRule("max-file-lines", singleFunction, "packages/std/src/one-function.ts", { max: 300 })
+      runRule("max-file-lines", singleFunction, "/packages/std/src/one-function.ts", { max: 300 })
     ).toHaveLength(0);
   });
 
@@ -148,14 +149,14 @@ describe("@clover/eslint-plugin", () => {
       runRule(
         "no-nullish-core",
         "export type Shape = { value: string | null };",
-        "packages/std/src/nullish.ts"
+        "/packages/std/src/nullish.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "no-nullish-core",
         "export function read(): string | undefined { return undefined; }",
-        "packages/std/src/nullish.ts"
+        "/packages/std/src/nullish.ts"
       )
     ).toHaveLength(2);
   });
@@ -165,14 +166,14 @@ describe("@clover/eslint-plugin", () => {
       runRule(
         "no-array-callback-iteration",
         "const result = values.map((value) => value + 1);",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "no-array-callback-iteration",
         "for (const value of values) { total += value; }",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(0);
   });
@@ -182,14 +183,14 @@ describe("@clover/eslint-plugin", () => {
       runRule(
         "no-regexp-runtime",
         "const matcher = /abc/;",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "no-regexp-runtime",
         "const matcher = new RegExp('abc');",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(1);
   });
@@ -199,14 +200,14 @@ describe("@clover/eslint-plugin", () => {
       runRule(
         "no-default-export",
         "export default function read() { return 1; }",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "no-default-export",
         "export function read() { return 1; }",
-        "packages/std/src/runtime.ts"
+        "/packages/std/src/runtime.ts"
       )
     ).toHaveLength(0);
   });

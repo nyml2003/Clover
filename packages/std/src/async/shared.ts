@@ -40,7 +40,8 @@ export const SliceAsyncErrorCode = {
   InvalidCount: 1301
 } as const;
 
-type SliceAsyncErrorCodeValue = (typeof SliceAsyncErrorCode)[keyof typeof SliceAsyncErrorCode];
+export type SliceAsyncErrorCodeValue =
+  (typeof SliceAsyncErrorCode)[keyof typeof SliceAsyncErrorCode];
 
 export type SliceAsyncErrorPayload = {
   reason: string;
@@ -53,7 +54,7 @@ export const SplitAsyncByDelimiterErrorCode = {
   InvalidDelimiter: 1401
 } as const;
 
-type SplitAsyncByDelimiterErrorCodeValue =
+export type SplitAsyncByDelimiterErrorCodeValue =
   (typeof SplitAsyncByDelimiterErrorCode)[keyof typeof SplitAsyncByDelimiterErrorCode];
 
 export type SplitAsyncByDelimiterErrorPayload = {

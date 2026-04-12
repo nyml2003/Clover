@@ -12,7 +12,7 @@ const ALLOWED_WORKSPACE_IMPORTS: Record<string, readonly string[]> = {
 
 function getPackageName(filename: string): string | null {
   const normalized = filename.replace(/\\/g, "/");
-  const match = normalized.match(/\/packages\/([^/]+)\//);
+  const match = normalized.match(/(?:^|\/)packages\/([^/]+)\//);
   return match ? (match[1] ?? null) : null;
 }
 

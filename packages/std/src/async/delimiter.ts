@@ -2,12 +2,10 @@ import type { Result } from "@clover/protocol";
 
 import {
   SplitAsyncByDelimiterErrorCode,
+  type SplitAsyncByDelimiterErrorCodeValue,
   type SplitAsyncByDelimiterErrorPayload,
   createSplitAsyncByDelimiterError
 } from "./shared.js";
-
-type SplitAsyncByDelimiterErrorCodeValue =
-  (typeof SplitAsyncByDelimiterErrorCode)[keyof typeof SplitAsyncByDelimiterErrorCode];
 
 export function splitAsyncByDelimiter(
   source: AsyncIterable<string>,
