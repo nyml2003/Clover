@@ -1,7 +1,7 @@
 import type { CloverError, Option, Result, SmiInt } from "@clover.js/protocol";
 
 import type { ParsedPath } from "../path/index.js";
-import type { QueryParam } from "../query/index.js";
+import type { ParsedQuery } from "../query/index.js";
 
 export const AT = 0x40;
 export const COLON = 0x3a;
@@ -59,7 +59,7 @@ export type NormalizedUrl = {
 export type ParsedUrlParts = {
   normalized: NormalizedUrl;
   path: ParsedPath;
-  queryParams: readonly QueryParam[];
+  parsedQuery: Option<ParsedQuery>;
 };
 
 export type ParsedUrlCore = {

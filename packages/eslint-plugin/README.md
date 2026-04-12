@@ -1,4 +1,4 @@
-# @clover/eslint-plugin
+# @clover.js/eslint-plugin
 
 Custom ESLint rules that enforce Clover's protocol and shape constraints.
 

@@ -21,6 +21,8 @@
 - “目前实现”进入 `current-state/`
 - “存在问题”和“未来演进”进入 `issues-and-roadmap/`
 
+其中 `vision-and-principles/system-map.md` 负责给出 Clover 的系统全景图，说明协议层、宿主逻辑边界、自动化基座和场景入口之间的关系。
+
 配套背景材料：
 
 - [../../agent.md](../../agent.md)

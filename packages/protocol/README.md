@@ -1,4 +1,4 @@
-# @clover/protocol
+# @clover.js/protocol
 
 Clover 的最小协议核心。
 

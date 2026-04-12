@@ -13,6 +13,7 @@
     "@clover.js/protocol": "workspace:*",
     "@clover.js/std": "workspace:*",
     "@clover.js/tsconfig": "workspace:*",
+    "@clover.js/http": "workspace:*",
     "@clover.js/zod": "workspace:*"
   },
   "scripts": {
@@ -25,8 +26,28 @@
     "test": "python ./scripts/workflow.py test",
     "test:coverage": "python ./scripts/workflow.py test-coverage"
   },
+  "cloverBuildDefaults": {
+    "outfile": "dist/index.js",
+    "tsconfig": "tsconfig.json",
+    "esbuild": {
+      "bundle": true,
+      "format": "esm",
+      "platform": "node",
+      "target": "es2024",
+      "packages": "external",
+      "minifySyntax": true,
+      "minifyWhitespace": true,
+      "legalComments": "none"
+    },
+    "dts": {
+      "disableSymlinksFollowing": true
+    }
+  },
   "devDependencies": {
+    "@eslint/core": "^0.17.0",
     "@eslint/js": "^9.39.1",
+    "@types/estree": "^1.0.8",
+    "@types/json-schema": "^7.0.15",
     "@types/node": "25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.0.0",
@@ -38,6 +59,7 @@
     "tinybench": "2.9.0",
     "tsx": "4.20.6",
     "typescript": "6.0.2",
+    "undici-types": "7.19.2",
     "vitest": "4.1.4",
     "zod": "4.3.6"
   }

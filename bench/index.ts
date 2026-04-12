@@ -1,8 +1,17 @@
+import path from "node:path";
 import { Bench } from "tinybench";
 import { z } from "zod";
 
 import { None, createError, isError, isNone } from "../packages/protocol/dist/index.js";
-import { normalizeUrl, parseHostPort, parseSmiInt, splitOnce } from "../packages/std/dist/index.js";
+import {
+  materializeQueryParams,
+  normalizeUrl,
+  parseHostPort,
+  parsePath,
+  parseQueryString,
+  parseSmiInt,
+  splitOnce
+} from "../packages/std/dist/index.js";
 import { parseWith } from "../packages/zod/dist/index.js";
 
 const BranchErrorCode = {
@@ -33,6 +42,25 @@ const NORMALIZED_URL_BENCHMARK_INPUTS = [
   "http://sub.domain.example.org:81/status",
   "https://example.com/a/b/c",
   "http://a-b.example.com:1234/path?q=alpha-beta"
+] as const;
+const PATH_BENCHMARK_INPUTS = [
+  "a/./b//c",
+  "./a/../b",
+  "../a/../../b",
+  "/a/./b/../c",
+  "/../../a",
+  "/",
+  "a/b/",
+  "/a/b/",
+  "",
+  "./",
+  "/docs/./api/../v1//users/"
+] as const;
+const QUERY_BENCHMARK_INPUTS = [
+  "a=1&empty=&a=2",
+  "page=1&tag=a&tag=b&debug=1",
+  "q=search&lang=en&limit=20&offset=0",
+  "a=1&b=2&c=3&d=4&e=5"
 ] as const;
 
 async function runSection(title: string, entries: ReadonlyArray<readonly [string, () => unknown]>): Promise<void> {
@@ -181,6 +209,151 @@ function benchmarkNormalizedUrl(
   return checksum;
 }
 
+function parsePathWithStdView(input: string) {
+  return parsePath(input);
+}
+
+function parsePathWithNodeView(input: string) {
+  let normalized = path.posix.normalize(input);
+  if (normalized === "./") {
+    normalized = ".";
+  }
+
+  const length = normalized.length;
+  const isAbsolute = length > 0 && normalized.charCodeAt(0) === 0x2f;
+  const hasTrailingSlash = length > 1 && normalized.charCodeAt(length - 1) === 0x2f;
+
+  if (normalized === "." || normalized === "/") {
+    return {
+      isAbsolute,
+      hasTrailingSlash,
+      normalized,
+      segmentBounds: []
+    };
+  }
+
+  const segmentBounds: number[] = [];
+  let index = isAbsolute ? 1 : 0;
+  let size = 0;
+
+  while (index < length) {
+    const segmentStart = index;
+
+    while (index < length && normalized.charCodeAt(index) !== 0x2f) {
+      index += 1;
+    }
+
+    if (index > segmentStart) {
+      segmentBounds[size] = segmentStart;
+      segmentBounds[size + 1] = index;
+      size += 2;
+    }
+
+    index += 1;
+  }
+
+  return {
+    isAbsolute,
+    hasTrailingSlash,
+    normalized,
+    segmentBounds
+  };
+}
+
+function comparePathImplementations() {
+  const mismatches = [];
+
+  for (const input of PATH_BENCHMARK_INPUTS) {
+    const stdResult = parsePathWithStdView(input);
+    const nodeResult = parsePathWithNodeView(input);
+
+    if (
+      stdResult.isAbsolute !== nodeResult.isAbsolute ||
+      stdResult.hasTrailingSlash !== nodeResult.hasTrailingSlash ||
+      stdResult.normalized !== nodeResult.normalized ||
+      JSON.stringify(stdResult.segmentBounds) !== JSON.stringify(nodeResult.segmentBounds)
+    ) {
+      mismatches.push({
+        input,
+        stdResult,
+        nodeResult
+      });
+    }
+  }
+
+  return {
+    inputs: PATH_BENCHMARK_INPUTS.length,
+    matches: PATH_BENCHMARK_INPUTS.length - mismatches.length,
+    mismatches
+  };
+}
+
+function benchmarkPathView(
+  parse: (input: string) => { normalized: string; segmentBounds: readonly number[] }
+) {
+  let checksum = 0;
+
+  for (const input of PATH_BENCHMARK_INPUTS) {
+    const result = parse(input);
+    checksum += result.normalized.length;
+    checksum += result.segmentBounds.length;
+  }
+
+  return checksum;
+}
+
+function parseQueryWithStdView(input: string) {
+  return materializeQueryParams(parseQueryString(input));
+}
+
+function parseQueryWithNodeView(input: string) {
+  const output = [];
+  const params = new URLSearchParams(input);
+
+  for (const [key, value] of params) {
+    output.push({
+      key,
+      value
+    });
+  }
+
+  return output;
+}
+
+function compareQueryImplementations() {
+  const mismatches = [];
+
+  for (const input of QUERY_BENCHMARK_INPUTS) {
+    const stdResult = parseQueryWithStdView(input);
+    const nodeResult = parseQueryWithNodeView(input);
+
+    if (JSON.stringify(stdResult) !== JSON.stringify(nodeResult)) {
+      mismatches.push({
+        input,
+        stdResult,
+        nodeResult
+      });
+    }
+  }
+
+  return {
+    inputs: QUERY_BENCHMARK_INPUTS.length,
+    matches: QUERY_BENCHMARK_INPUTS.length - mismatches.length,
+    mismatches
+  };
+}
+
+function benchmarkQueryView(parse: (input: string) => readonly { key: string; value: unknown }[]) {
+  let checksum = 0;
+
+  for (const input of QUERY_BENCHMARK_INPUTS) {
+    const result = parse(input);
+    checksum += result.length;
+  }
+
+  return checksum;
+}
+
 await runSection("string", [
   ["splitOnce:hit", () => splitOnce("host:8080", ":")],
   ["splitOnce:miss", () => splitOnce("localhost", ":")]
@@ -199,6 +372,38 @@ await runSection("branch", [
 await runSection("boundary", [
   ["parseWith:valid", () => parseWith(argvSchema, ["--port", "8080"])],
   ["parseWith:invalid", () => parseWith(argvSchema, ["--port", 8080])]
+]);
+
+const pathComparison = comparePathImplementations();
+
+console.log(
+  `\npath-equivalence: inputs=${pathComparison.inputs} matches=${pathComparison.matches} mismatches=${pathComparison.mismatches.length}`
+);
+
+if (pathComparison.mismatches.length > 0) {
+  throw new Error(`Unexpected std/node path benchmark mismatch: ${JSON.stringify(pathComparison.mismatches[0])}`);
+}
+
+await runSection("path", [
+  ["parsePath:std-view", () => benchmarkPathView(parsePathWithStdView)],
+  ["parsePath:node-composite", () => benchmarkPathView(parsePathWithNodeView)]
+]);
+
+const queryComparison = compareQueryImplementations();
+
+console.log(
+  `\nquery-equivalence: inputs=${queryComparison.inputs} matches=${queryComparison.matches} mismatches=${queryComparison.mismatches.length}`
+);
+
+if (queryComparison.mismatches.length > 0) {
+  throw new Error(
+    `Unexpected std/node query benchmark mismatch: ${JSON.stringify(queryComparison.mismatches[0])}`
+  );
+}
+
+await runSection("query", [
+  ["parseQueryString:std-view", () => benchmarkQueryView(parseQueryWithStdView)],
+  ["parseQueryString:node-urlsearchparams", () => benchmarkQueryView(parseQueryWithNodeView)]
 ]);
 
 const urlComparison = compareUrlImplementations();

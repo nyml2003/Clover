@@ -9,6 +9,7 @@ PACKAGE_ROOTS = [
     pathlib.Path("packages/std/src"),
     pathlib.Path("packages/zod/src"),
     pathlib.Path("packages/cli/src"),
+    pathlib.Path("packages/http/src"),
     pathlib.Path("packages/eslint-plugin/src"),
 ]
 

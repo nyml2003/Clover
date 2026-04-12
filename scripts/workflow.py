@@ -98,19 +98,9 @@ def dependency_closure(targets: list[str]) -> list[str]:
 
 def build_package_direct(package_name: str) -> None:
     cwd = package_dir(package_name)
-    entry = "src/index.ts" if (cwd / "src/index.ts").exists() else "index.ts"
 
     run([sys.executable, str(ROOT / "scripts" / "clean_paths.py"), "dist", "types"], cwd)
-    run(
-        [
-            sys.executable,
-            str(ROOT / "scripts" / "build_package.py"),
-            entry,
-            "dist/index.js",
-            "tsconfig.json",
-        ],
-        cwd,
-    )
+    run([sys.executable, str(ROOT / "scripts" / "build_package.py")], cwd)
 
 
 def typecheck_package_direct(package_name: str) -> None:
@@ -131,8 +121,8 @@ def lint_package_direct(package_name: str, fix: bool = False) -> None:
         return
 
     config_path = ROOT / "packages" / "eslint-config" / "dist" / "index.js"
-    if not config_path.exists() and package_name != "@clover/eslint-config":
-        build_targets(["@clover/eslint-config"])
+    if not config_path.exists() and package_name != "@clover.js/eslint-config":
+        build_targets(["@clover.js/eslint-config"])
 
     config_argument = (
         str(config_path)

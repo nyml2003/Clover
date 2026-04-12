@@ -12,8 +12,8 @@
 
 当前版本策略优先约束：
 
-- `@clover/protocol`
-- `@clover/std`
+- `@clover.js/protocol`
+- `@clover.js/std`
 
 其他包仍处于孵化或仓库配套阶段，不默认承诺长期稳定。
 

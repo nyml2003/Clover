@@ -10,13 +10,4 @@ export {
   type SupportedScheme
 } from "./shared.js";
 export { parseHostPort } from "./host-port.js";
-export {
-  buildQueryString,
-  explainInvalidUrl,
-  getQueryParamValues,
-  normalizeUrl,
-  parseQueryString,
-  parseUrlParts,
-  toQueryRecord
-} from "./normalize.js";
-export type { QueryParam } from "../query/index.js";
+export { explainInvalidUrl, normalizeUrl, parseUrlParts } from "./normalize.js";

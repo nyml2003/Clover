@@ -3,14 +3,25 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildQueryString,
-  getQueryParamValues,
+  getQueryParamCount,
+  materializeQueryParams,
+  parseQueryRecord,
   parseQueryString,
-  toQueryRecord
+  readQueryKey,
+  readQueryValue
 } from "@clover.js/std";
 
 describe("@clover.js/std query", () => {
-  it("parses query strings into fixed-shape entries", () => {
-    expect(parseQueryString("?a=1&flag&empty=&a=2&&")).toEqual([
+  it("parses query strings into span views", () => {
+    const parsed = parseQueryString("?a=1&flag&empty=&a=2&&");
+
+    expect(parsed.source).toBe("a=1&flag&empty=&a=2&&");
+    expect(getQueryParamCount(parsed)).toBe(4);
+    expect(readQueryKey(parsed, 0)).toBe("a");
+    expect(readQueryValue(parsed, 0)).toBe("1");
+    expect(readQueryKey(parsed, 1)).toBe("flag");
+    expect(readQueryValue(parsed, 1)).toBe(None);
+    expect(materializeQueryParams(parsed)).toEqual([
       { key: "a", value: "1" },
       { key: "flag", value: None },
       { key: "empty", value: "" },
@@ -18,23 +29,23 @@ describe("@clover.js/std query", () => {
     ]);
   });
 
-  it("builds query strings from parsed entries", () => {
-    expect(
-      buildQueryString([
-        { key: "a", value: "1" },
-        { key: "flag", value: None },
-        { key: "empty", value: "" }
-      ])
-    ).toBe("a=1&flag&empty=");
+  it("builds canonical query strings from parsed views", () => {
+    expect(buildQueryString(parseQueryString("?a=1&flag&empty="))).toBe("a=1&flag&empty=");
   });
 
-  it("returns all values for a given key and exposes a grouped record", () => {
-    const parsed = parseQueryString("?a=1&flag&a=2");
-    expect(getQueryParamValues(parsed, "a")).toEqual(["1", "2"]);
-    expect(getQueryParamValues(parsed, "flag")).toEqual([None]);
-    expect(toQueryRecord(parsed)).toEqual({
+  it("parses grouped query records directly for host lookup", () => {
+    expect(parseQueryRecord("?a=1&flag&a=2")).toEqual({
       a: ["1", "2"],
       flag: [None]
     });
+  });
+
+  it("treats prototype-looking keys as normal query keys", () => {
+    const grouped = parseQueryRecord("?constructor=1&__proto__=2&toString=3");
+
+    expect(grouped.constructor).toEqual(["1"]);
+    expect(grouped["__proto__"]).toEqual(["2"]);
+    expect(grouped.toString).toEqual(["3"]);
+    expect(Object.getPrototypeOf(grouped)).toBeNull();
   });
 });

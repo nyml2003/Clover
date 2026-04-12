@@ -17,6 +17,9 @@ importers:
       '@clover.js/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
+      '@clover.js/http':
+        specifier: workspace:*
+        version: link:packages/http
       '@clover.js/protocol':
         specifier: workspace:*
         version: link:packages/protocol
@@ -30,9 +33,18 @@ importers:
         specifier: workspace:*
         version: link:packages/zod
     devDependencies:
+      '@eslint/core':
+        specifier: ^0.17.0
+        version: 0.17.0
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.4
+      '@types/estree':
+        specifier: ^1.0.8
+        version: 1.0.8
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
       '@types/node':
         specifier: 25.6.0
         version: 25.6.0
@@ -66,6 +78,9 @@ importers:
       typescript:
         specifier: 6.0.2
         version: 6.0.2
+      undici-types:
+        specifier: 7.19.2
+        version: 7.19.2
       vitest:
         specifier: 4.1.4
         version: 4.1.4(@types/node@25.6.0)(@vitest/coverage-v8@4.1.4)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.28.0)(jiti@2.6.1)(tsx@4.20.6))
@@ -95,6 +110,18 @@ importers:
         version: 8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.2)
 
   packages/eslint-plugin: {}
+
+  packages/http:
+    dependencies:
+      '@clover.js/protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@clover.js/std':
+        specifier: workspace:*
+        version: link:../std
+      '@clover.js/zod':
+        specifier: workspace:*
+        version: link:../zod
 
   packages/protocol: {}
 

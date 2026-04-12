@@ -137,6 +137,18 @@ export function defineCloverConfig(clover: ESLint.Plugin): {
         "clover/no-core-zod-import": "off",
         "clover/no-default-export": "error"
       }
+    },
+    {
+      files: ["packages/http/src/**/*.ts"],
+      languageOptions: tsLanguageOptions,
+      plugins: pluginSet,
+      rules: {
+        ...baseTsRules,
+        ...sharedCoreRules,
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        "clover/no-core-zod-import": "off",
+        "clover/no-default-export": "error"
+      }
     }
   ];
 

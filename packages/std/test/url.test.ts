@@ -4,6 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   buildQueryString,
   explainInvalidUrl,
+  materializePathSegments,
+  materializeQueryParams,
   normalizeUrl,
   parseHostPort,
   parseQueryString,
@@ -101,13 +103,13 @@ describe("@clover.js/std url", () => {
   });
 
   it("normalizes scheme, host, path, and default ports", () => {
-    expect(normalizeUrl("HTTPS://Example.COM:443/docs?q=1")).toEqual({
+    expect(normalizeUrl("HTTPS://Example.COM:443/docs/./api/../v1?q=1")).toEqual({
       scheme: "https",
       host: "example.com",
       port: None,
-      path: "/docs",
+      path: "/docs/v1",
       query: "q=1",
-      normalizedHref: "https://example.com/docs?q=1"
+      normalizedHref: "https://example.com/docs/v1?q=1"
     });
   });
 
@@ -166,46 +168,46 @@ describe("@clover.js/std url", () => {
   });
 
   it("parses normalized URL details into path and query structures", () => {
-    expect(parseUrlParts("https://example.com/docs/api?q=1&flag")).toEqual({
-      normalized: {
-        scheme: "https",
-        host: "example.com",
-        port: None,
-        path: "/docs/api",
-        query: "q=1&flag",
-        normalizedHref: "https://example.com/docs/api?q=1&flag"
-      },
-      path: {
-        isAbsolute: true,
-        hasTrailingSlash: false,
-        normalized: "/docs/api",
-        segments: ["docs", "api"]
-      },
-      queryParams: [
-        { key: "q", value: "1" },
-        { key: "flag", value: None }
-      ]
+    const parsed = parseUrlParts("https://example.com/docs/api?q=1&flag");
+
+    expect(isError(parsed)).toBe(false);
+    if (isError(parsed)) {
+      return;
+    }
+
+    expect(parsed.normalized).toEqual({
+      scheme: "https",
+      host: "example.com",
+      port: None,
+      path: "/docs/api",
+      query: "q=1&flag",
+      normalizedHref: "https://example.com/docs/api?q=1&flag"
     });
+    expect(materializePathSegments(parsed.path)).toEqual(["docs", "api"]);
+    expect(parsed.parsedQuery).not.toBe(None);
+    if (parsed.parsedQuery === None) {
+      return;
+    }
+
+    expect(parsed.parsedQuery.source).toBe("q=1&flag");
+    expect(materializeQueryParams(parsed.parsedQuery)).toEqual([
+      { key: "q", value: "1" },
+      { key: "flag", value: None }
+    ]);
   });
 
   it("parses query strings into fixed-shape entries", () => {
-    expect(parseQueryString("?a=1&flag&empty=&a=2&&")).toEqual([
+    expect(materializeQueryParams(parseQueryString("?a=1&flag&empty=&a=2&&"))).toEqual([
       { key: "a", value: "1" },
       { key: "flag", value: None },
       { key: "empty", value: "" },
       { key: "a", value: "2" }
     ]);
-    expect(parseQueryString("")).toEqual([]);
+    expect(materializeQueryParams(parseQueryString(""))).toEqual([]);
   });
 
-  it("builds query strings from fixed-shape entries", () => {
-    expect(
-      buildQueryString([
-        { key: "a", value: "1" },
-        { key: "flag", value: None },
-        { key: "empty", value: "" }
-      ])
-    ).toBe("a=1&flag&empty=");
-    expect(buildQueryString([])).toBe("");
+  it("builds query strings from parsed views", () => {
+    expect(buildQueryString(parseQueryString("?a=1&flag&empty="))).toBe("a=1&flag&empty=");
+    expect(buildQueryString(parseQueryString(""))).toBe("");
   });
 });

@@ -1,11 +1,11 @@
-# @clover/std
+# @clover.js/std
 
 Clover 标准库实现。
 
 当前状态：
 
 - 首批稳定消费面
-- 建议在 `@clover/protocol` 之后接入
+- 建议在 `@clover.js/protocol` 之后接入
 
 首批内容：
 

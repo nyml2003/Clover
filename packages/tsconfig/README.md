@@ -1,4 +1,4 @@
-# @clover/tsconfig
+# @clover.js/tsconfig
 
 Reusable TypeScript presets for Clover packages and Node-facing entrypoints.
 

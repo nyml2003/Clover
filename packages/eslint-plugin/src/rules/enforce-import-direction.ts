@@ -5,6 +5,7 @@ const ALLOWED_WORKSPACE_IMPORTS: Record<string, readonly string[]> = {
   std: ["@clover.js/protocol"],
   zod: ["@clover.js/protocol", "@clover.js/std"],
   cli: ["@clover.js/protocol", "@clover.js/std", "@clover.js/zod"],
+  http: ["@clover.js/protocol", "@clover.js/std", "@clover.js/zod"],
   "eslint-plugin": [],
   "eslint-config": ["@clover.js/eslint-plugin"],
   tsconfig: []

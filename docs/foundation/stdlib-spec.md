@@ -74,14 +74,13 @@ packages/
       string/
       url/
       security/
-      boundary/
 ```
 
 说明：
 
 - `std/` 是可执行标准库
-- `boundary/` 放 Zod 相关适配
-- 纯协议类型仍然通过 `@clover/protocol` 暴露，而不是单独维护一个独立的类型包
+- Zod 相关适配单独放进 `@clover.js/zod`，不再塞回标准库目录
+- 纯协议类型仍然通过 `@clover.js/protocol` 暴露，而不是单独维护一个独立的类型包
 
 ## 4. 推荐纳入的工具域
 
@@ -443,7 +442,7 @@ packages/
 
 ### 6.3 应放在边界模块的
 
-以下能力应放进 `std/boundary` 或单独模块：
+以下能力应放进 `@clover.js/zod` 或其他独立边界模块：
 
 - Zod schema 适配
 - Zod error 转 `CloverError`
@@ -462,13 +461,13 @@ packages/
 5. `async/`
 6. `path/` 与 `url/`
 7. `object/`
-8. `boundary/zod/`
+8. `@clover.js/zod`
 
 原因：
 
 - `result/` 是所有返回协议的基础
 - `string/` 和 `number/` 是解析器的基本砖块
-- `guard/` 和 `boundary/zod/` 决定边界层质量
+- `guard/` 和 `@clover.js/zod` 决定边界层质量
 - `async/` 决定流式解析骨架
 - `object/` 反而要最克制，不应先长成“万能工具箱”
 

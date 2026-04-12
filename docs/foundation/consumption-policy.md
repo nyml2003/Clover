@@ -8,29 +8,30 @@
 
 | 包 | 当前定位 | 对外消费建议 |
 | --- | --- | --- |
-| `@clover/protocol` | 稳定核心层 | 可以作为首批对外消费面 |
-| `@clover/std` | 稳定运行时层 | 可以作为首批对外消费面 |
-| `@clover/zod` | 孵化中的边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
-| `@clover/cli` | 孵化中的 CLI 边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
-| `@clover/eslint-plugin` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
-| `@clover/eslint-config` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
-| `@clover/tsconfig` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
+| `@clover.js/protocol` | 稳定核心层 | 可以作为首批对外消费面 |
+| `@clover.js/std` | 稳定运行时层 | 可以作为首批对外消费面 |
+| `@clover.js/zod` | 孵化中的边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
+| `@clover.js/cli` | 孵化中的 CLI 边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
+| `@clover.js/http` | 孵化中的 HTTP 请求响应边界层 | 暂不承诺稳定，优先仓库内和受控项目使用 |
+| `@clover.js/eslint-plugin` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
+| `@clover.js/eslint-config` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
+| `@clover.js/tsconfig` | 仓库配套治理层 | 当前不作为稳定对外消费面承诺 |
 
 ## 推荐接入顺序
 
 如果外部项目要渐进采用 Clover，推荐顺序如下：
 
-1. 先接入 `@clover/protocol`
-2. 再接入 `@clover/std`
-3. 只有在明确需要统一边界解析时，再评估 `@clover/zod`
+1. 先接入 `@clover.js/protocol`
+2. 再接入 `@clover.js/std`
+3. 只有在明确需要统一边界解析时，再评估 `@clover.js/zod`
 4. 只有在整个工具链都准备跟随 Clover 约束时，再评估 CLI 和治理层包
 
 ## 当前承诺边界
 
 当前默认承诺只覆盖两类内容：
 
-- `@clover/protocol` 的公开协议面
-- `@clover/std` 的公开运行时 API
+- `@clover.js/protocol` 的公开协议面
+- `@clover.js/std` 的公开运行时 API
 
 其他工作区包当前的角色是：
 

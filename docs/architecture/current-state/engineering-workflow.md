@@ -1,6 +1,6 @@
 # 工程工作流
 
-当前工程工作流围绕几条根级脚本组织：
+当前工程工作流围绕几条根级脚本组织，这些 `pnpm` 命令都由 `scripts/workflow.py` 统一编排：
 
 - `pnpm build`
 - `pnpm test`
@@ -11,10 +11,14 @@
 - `pnpm bench`
 - `pnpm release:check`
 
-同时，每个工作区包现在都提供统一的 `pnpm --filter <package> run lint` 入口，使用同一套 ESLint 配置。
+同时，每个工作区包的常用脚本都统一委托给 `python ../../scripts/package_tasks.py`，因此 `pnpm --filter <package> run <script>` 和在包目录直接执行脚本行为保持一致。
+
+构建默认值现在显式收敛在根 `package.json#cloverBuildDefaults`，如果单个包需要特殊打包参数，则通过包内 `package.json#cloverBuild` 覆盖。
 
 工作区包级统一入口现在固定为：
 
+- `build`
+- `typecheck`
 - `lint`
 - `lint:fix`
 - `unittest`
@@ -35,8 +39,9 @@
 
 当前构建采用两段式：
 
-- `esbuild` 负责运行时代码输出
-- `dts-bundle-generator` 负责单文件声明输出
+- `esbuild` 负责运行时代码输出到 `dist/index.js`
+- `dts-bundle-generator` 负责单文件声明输出到 `dist/index.d.ts`
+- 声明 bundling 显式使用 `--disable-symlinks-following`，避免 workspace 链接被展开成非预期路径
 
 这让 Clover 保持现代 ESM 输出，同时把运行时和声明都收敛到 `dist/` 下的单文件产物。
 

@@ -2,6 +2,8 @@
 
 这一组文档把系统缺口和下一步演进放在一起讨论。
 
+其中 `evolution-roadmap.md` 会沿着 `vision-and-principles/system-map.md` 的系统分层来排推进顺序，而不是按目录顺序排。
+
 阅读建议：
 
 1. 先看 `known-issues.md`

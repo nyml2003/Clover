@@ -1,4 +1,4 @@
-# @clover/eslint-config
+# @clover.js/eslint-config
 
 Flat ESLint config presets for Clover runtime, CLI, tests, and tooling.
 

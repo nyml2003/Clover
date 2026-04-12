@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { createError } from "@clover.js/protocol";
+import { createError, isError } from "@clover.js/protocol";
 import {
   CliErrorCode,
   emitCliRender,
@@ -11,6 +11,7 @@ import {
   renderCliResult,
   toExitCode
 } from "@clover.js/cli";
+import { ZodErrorCode } from "@clover.js/zod";
 
 const CliTestErrorCode = {
   BadInput: 4001,
@@ -47,6 +48,9 @@ describe("@clover.js/cli", () => {
   it("renders successful results without inventing a second business protocol", () => {
     const rendered = renderCliResult({
       argv: ["node", "script.js", "8080"],
+      usage: "tool <port>",
+      requireArgs: false,
+      mapExitCode: {},
       execute(args) {
         return Number(args[0]);
       },
@@ -61,9 +65,32 @@ describe("@clover.js/cli", () => {
     });
   });
 
+  it("passes only business argv to execute", () => {
+    const execute = vi.fn((args: readonly string[]) => args.join(" "));
+
+    const rendered = renderCliResult({
+      argv: ["node", "script.js", "serve", "--port", "8080"],
+      usage: "tool <command>",
+      requireArgs: false,
+      mapExitCode: {},
+      execute,
+      onSuccess(value) {
+        return value;
+      }
+    });
+
+    expect(execute).toHaveBeenCalledWith(["serve", "--port", "8080"]);
+    expect(rendered).toEqual({
+      exitCode: 0,
+      stdout: "serve --port 8080"
+    });
+  });
+
   it("renders Clover errors into stderr and exit code", () => {
     const rendered = renderCliResult({
       argv: ["node", "script.js", "bad"],
+      usage: "tool 8080",
+      requireArgs: false,
       execute() {
         return createError(CliTestErrorCode.BadPort, {
           reason: "bad-port",
@@ -89,13 +116,14 @@ describe("@clover.js/cli", () => {
   });
 
   it("returns usage when arguments are required but missing", () => {
+    const execute = vi.fn(() => 1);
+
     const rendered = renderCliResult({
       argv: ["node", "script.js"],
       usage: "tool <port>",
       requireArgs: true,
-      execute() {
-        return 1;
-      },
+      mapExitCode: {},
+      execute,
       onSuccess(value) {
         return String(value);
       }
@@ -109,6 +137,7 @@ describe("@clover.js/cli", () => {
         usage: "tool <port>"
       })
     });
+    expect(execute).not.toHaveBeenCalled();
   });
 
   it("emits rendered output through injectable writers", () => {
@@ -152,5 +181,19 @@ describe("@clover.js/cli", () => {
       "--port",
       "8080"
     ]);
+  });
+
+  it("returns Clover boundary errors for invalid argv instead of throwing", () => {
+    const schema = z.tuple([z.literal("--port"), z.string()]);
+    const result = parseArgvWith(schema, ["node", "cli.js", "--bad", "8080"]);
+
+    expect(isError(result)).toBe(true);
+    if (!isError(result)) {
+      return;
+    }
+
+    expect(result.__code__).toBe(ZodErrorCode.ParseFailed);
+    expect(result.payload.mode).toBe("parse");
+    expect(result.payload.inputKind).toBe("array");
   });
 });

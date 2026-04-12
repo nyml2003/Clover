@@ -4,6 +4,7 @@ import {
   createError,
   isError,
   isErrorObjectPayload,
+  isErrorScalarPayload,
   type CloverError,
   type ErrorPayload,
   type Result
@@ -51,12 +52,11 @@ export type RenderCliResultOptions<
   Payload extends ErrorPayload = ErrorPayload
 > = {
   argv?: readonly string[];
-  usage?: string;
-  requireArgs?: boolean;
+  usage: string;
+  requireArgs: boolean;
   execute: (args: readonly string[]) => Result<T, ErrorCode, Payload>;
   onSuccess: (value: T) => string;
-  mapExitCode?: ExitCodeMapping;
-  fallbackErrorMessage?: string;
+  mapExitCode: ExitCodeMapping;
 };
 
 export type CliIO = {
@@ -82,11 +82,7 @@ function formatErrorObjectPayload(value: Record<string, string | number | boolea
 
   for (const key of preferredKeys) {
     const candidate = value[key];
-    if (
-      typeof candidate === "string" ||
-      typeof candidate === "number" ||
-      typeof candidate === "boolean"
-    ) {
+    if (isErrorScalarPayload(candidate)) {
       return toText(candidate);
     }
   }
@@ -98,17 +94,10 @@ export function readArgv(argv: readonly string[] = process.argv): readonly strin
   return argv.slice(2);
 }
 
-export function formatCliError(
-  error: CloverError,
-  fallbackMessage: string = "CLI execution failed."
-): string {
+export function formatCliError(error: CloverError): string {
   const prefix = `[${error.__code__}]`;
 
-  if (
-    typeof error.payload === "string" ||
-    typeof error.payload === "number" ||
-    typeof error.payload === "boolean"
-  ) {
+  if (isErrorScalarPayload(error.payload)) {
     return `${prefix} ${toText(error.payload)}`;
   }
 
@@ -116,7 +105,7 @@ export function formatCliError(
     return `${prefix} ${formatErrorObjectPayload(error.payload)}`;
   }
 
-  return `${prefix} ${fallbackMessage}`;
+  return `${prefix} CLI execution failed.`;
 }
 
 export function toExitCode(error: CloverError, mapping: ExitCodeMapping = {}): number {
@@ -142,15 +131,15 @@ export function renderCliResult<
 ): CliRenderResult<ErrorCode | CliErrorCodeValue, Payload | CliErrorPayload> {
   const args = readArgv(options.argv);
 
-  if (options.requireArgs === true && args.length === 0) {
+  if (options.requireArgs && args.length === 0) {
     const error = createError(CliErrorCode.MissingArgs, {
       reason: "missing-args",
-      usage: options.usage ?? ""
+      usage: options.usage
     });
 
     return {
       exitCode: 1,
-      stderr: options.usage ?? formatCliError(error, "Missing CLI arguments."),
+      stderr: options.usage,
       error
     };
   }
@@ -160,7 +149,7 @@ export function renderCliResult<
   if (isError(result)) {
     return {
       exitCode: toExitCode(result, options.mapExitCode),
-      stderr: formatCliError(result, options.fallbackErrorMessage),
+      stderr: formatCliError(result),
       error: result
     };
   }

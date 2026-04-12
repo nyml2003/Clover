@@ -5,12 +5,13 @@
     "baseUrl": "../..",
     "ignoreDeprecations": "6.0",
     "paths": {
-      "@clover/protocol": ["packages/protocol/src/index.ts"],
-      "@clover/std": ["packages/std/src/index.ts"],
-      "@clover/zod": ["packages/zod/src/index.ts"],
-      "@clover/cli": ["packages/cli/src/index.ts"],
-      "@clover/eslint-plugin": ["packages/eslint-plugin/src/index.ts"],
-      "@clover/eslint-config": ["packages/eslint-config/index.ts"]
+      "@clover.js/protocol": ["packages/protocol/src/index.ts"],
+      "@clover.js/std": ["packages/std/src/index.ts"],
+      "@clover.js/zod": ["packages/zod/src/index.ts"],
+      "@clover.js/cli": ["packages/cli/src/index.ts"],
+      "@clover.js/http": ["packages/http/src/index.ts"],
+      "@clover.js/eslint-plugin": ["packages/eslint-plugin/src/index.ts"],
+      "@clover.js/eslint-config": ["packages/eslint-config/index.ts"]
     }
   }
 }

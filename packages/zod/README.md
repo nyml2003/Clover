@@ -1,4 +1,4 @@
-# @clover/zod
+# @clover.js/zod
 
 Zod 边界适配层。
 
