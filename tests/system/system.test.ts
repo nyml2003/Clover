@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import * as protocol from "@clover/protocol";
-import * as std from "@clover/std";
-import * as zodBoundary from "@clover/zod";
-import * as cli from "@clover/cli";
-import eslintPlugin from "@clover/eslint-plugin";
-import eslintConfig from "@clover/eslint-config";
-import tsconfigBase from "@clover/tsconfig/base.json";
+import * as protocol from "@clover.js/protocol";
+import * as std from "@clover.js/std";
+import * as zodBoundary from "@clover.js/zod";
+import * as cli from "@clover.js/cli";
+import eslintPlugin from "@clover.js/eslint-plugin";
+import eslintConfig from "@clover.js/eslint-config";
+import tsconfigBase from "@clover.js/tsconfig/base.json";
 
 const SystemTestErrorCode = {
   Synthetic: 9001

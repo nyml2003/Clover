@@ -9,14 +9,14 @@ import {
   isErrorPayload,
   isErrorScalarPayload,
   isNone
-} from "@clover/protocol";
+} from "@clover.js/protocol";
 
 const ProtocolErrorCode = {
   MissingValue: 1001,
   InvalidInput: 1002
 } as const;
 
-describe("@clover/protocol", () => {
+describe("@clover.js/protocol", () => {
   it("keeps None as a symbol sentinel", () => {
     expect(typeof None).toBe("symbol");
   });

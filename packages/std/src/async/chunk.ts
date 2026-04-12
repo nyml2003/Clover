@@ -1,4 +1,4 @@
-import type { Result } from "@clover/protocol";
+import type { Result } from "@clover.js/protocol";
 
 import {
   BufferAsyncChunksErrorCode,

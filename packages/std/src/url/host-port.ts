@@ -1,4 +1,4 @@
-import { None, createError, isError, type CloverError } from "@clover/protocol";
+import { None, createError, isError, type CloverError } from "@clover.js/protocol";
 
 import { parseSmiInt } from "../number/index.js";
 import {

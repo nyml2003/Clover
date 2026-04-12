@@ -1,4 +1,4 @@
-import { None, isError } from "@clover/protocol";
+import { None, isError } from "@clover.js/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -13,12 +13,12 @@ import {
   separatedList,
   sequence,
   takeWhile
-} from "@clover/std";
+} from "@clover.js/std";
 
 const isAlpha = (char: string): boolean => /^[A-Za-z]$/.test(char);
 const isDigit = (char: string): boolean => /^[0-9]$/.test(char);
 
-describe("@clover/std parser", () => {
+describe("@clover.js/std parser", () => {
   it("matches literals, sequences, and choices", () => {
     const parser = choice(
       literal("alpha"),

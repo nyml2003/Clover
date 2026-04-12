@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { joinPathSegments, normalizePathSegments, parsePath, splitPathSegments } from "@clover/std";
+import { joinPathSegments, normalizePathSegments, parsePath, splitPathSegments } from "@clover.js/std";
 
-describe("@clover/std path", () => {
+describe("@clover.js/std path", () => {
   it("normalizes relative paths by removing dot segments", () => {
     expect(normalizePathSegments("a/./b//c")).toBe("a/b/c");
     expect(normalizePathSegments("./a/../b")).toBe("b");

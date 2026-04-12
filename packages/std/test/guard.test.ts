@@ -6,9 +6,9 @@ import {
   isNumber,
   isObjectRecord,
   isString
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std guard", () => {
+describe("@clover.js/std guard", () => {
   it("narrows primitive and collection values", () => {
     expect(isString("value")).toBe(true);
     expect(isString(1)).toBe(false);

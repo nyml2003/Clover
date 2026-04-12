@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { hasOwn, shallowClone, shallowMerge, typedEntries, typedKeys } from "@clover/std";
+import { hasOwn, shallowClone, shallowMerge, typedEntries, typedKeys } from "@clover.js/std";
 
-describe("@clover/std object", () => {
+describe("@clover.js/std object", () => {
   it("checks own properties safely", () => {
     const value = Object.create({ inherited: true }) as { answer: number; inherited: boolean };
     value.answer = 42;

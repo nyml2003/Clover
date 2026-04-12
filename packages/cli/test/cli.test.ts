@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
-import { createError } from "@clover/protocol";
+import { createError } from "@clover.js/protocol";
 import {
   CliErrorCode,
   emitCliRender,
@@ -10,7 +10,7 @@ import {
   readArgv,
   renderCliResult,
   toExitCode
-} from "@clover/cli";
+} from "@clover.js/cli";
 
 const CliTestErrorCode = {
   BadInput: 4001,
@@ -19,7 +19,7 @@ const CliTestErrorCode = {
   BadPort: 4010
 } as const;
 
-describe("@clover/cli", () => {
+describe("@clover.js/cli", () => {
   it("reads business argv by dropping the node executable and script path", () => {
     expect(readArgv(["node", "script.js", "--port", "8080"])).toEqual(["--port", "8080"]);
   });
@@ -146,7 +146,7 @@ describe("@clover/cli", () => {
     expect(stderr).toHaveBeenCalledWith("bad");
   });
 
-  it("bridges argv parsing through @clover/zod", () => {
+  it("bridges argv parsing through @clover.js/zod", () => {
     const schema = z.tuple([z.literal("--port"), z.string()]);
     expect(parseArgvWith(schema, ["node", "cli.js", "--port", "8080"])).toEqual([
       "--port",

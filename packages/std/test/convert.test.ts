@@ -1,4 +1,4 @@
-import { isError } from "@clover/protocol";
+import { isError } from "@clover.js/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -8,9 +8,9 @@ import {
   toRecordValue,
   toSafeIntegerValue,
   toStringValue
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std convert", () => {
+describe("@clover.js/std convert", () => {
   it("converts strings and rejects non-strings", () => {
     expect(toStringValue("ok")).toBe("ok");
     expect(isError(toStringValue(42))).toBe(true);

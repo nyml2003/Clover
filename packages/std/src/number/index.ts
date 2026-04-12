@@ -4,7 +4,7 @@ import {
   type FiniteFloat64,
   type Result,
   type SmiInt
-} from "@clover/protocol";
+} from "@clover.js/protocol";
 
 const MAX_SMI_INT = 2_147_483_647;
 const MIN_SMI_INT = -2_147_483_648;

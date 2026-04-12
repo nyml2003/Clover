@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createError, isError } from "@clover/protocol";
+import { createError, isError } from "@clover.js/protocol";
 import {
   andThenResult,
   err,
@@ -9,14 +9,14 @@ import {
   matchResult,
   ok,
   unwrapOr
-} from "@clover/std";
+} from "@clover.js/std";
 
 const ResultErrorCode = {
   Failed: 9001,
   Retried: 9002
 } as const;
 
-describe("@clover/std result", () => {
+describe("@clover.js/std result", () => {
   it("creates ok values and fixed-shape error objects", () => {
     expect(ok(42)).toBe(42);
     expect(err(ResultErrorCode.Failed, "bad-input")).toEqual({

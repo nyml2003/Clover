@@ -8,7 +8,7 @@ export const noCoreZodImport: Rule.RuleModule = {
     },
     schema: [],
     messages: {
-      noZod: "Direct zod imports are only allowed in boundary packages such as @clover/zod."
+      noZod: "Direct zod imports are only allowed in boundary packages such as @clover.js/zod."
     }
   },
   create(context) {

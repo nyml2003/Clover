@@ -38,7 +38,7 @@ export const rules = {
 
 const plugin = {
   meta: {
-    name: "@clover/eslint-plugin"
+    name: "@clover.js/eslint-plugin"
   },
   rules
 } satisfies ESLint.Plugin;

@@ -7,9 +7,9 @@ import {
   type CloverError,
   type ErrorPayload,
   type Result
-} from "@clover/protocol";
-import { inRange } from "@clover/std";
-import { parseWith, type ZodBoundaryErrorPayload } from "@clover/zod";
+} from "@clover.js/protocol";
+import { inRange } from "@clover.js/std";
+import { parseWith, type ZodBoundaryErrorPayload } from "@clover.js/zod";
 import { type z } from "zod";
 
 export const CliErrorCode = {

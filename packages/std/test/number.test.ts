@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { isError } from "@clover/protocol";
+import { isError } from "@clover.js/protocol";
 import {
   NumberErrorCode,
   clamp,
@@ -11,9 +11,9 @@ import {
   parseFiniteFloat64,
   parseSmiInt,
   signOfNumber
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std number", () => {
+describe("@clover.js/std number", () => {
   it("parses smi integers within the conservative int32 range", () => {
     expect(parseSmiInt("0")).toBe(0);
     expect(parseSmiInt("-42")).toBe(-42);

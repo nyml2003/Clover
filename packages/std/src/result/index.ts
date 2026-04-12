@@ -4,7 +4,7 @@ import {
   type CloverError,
   type ErrorPayload,
   type Result
-} from "@clover/protocol";
+} from "@clover.js/protocol";
 
 export function ok<T>(value: T): Result<T, never, never> {
   return value;

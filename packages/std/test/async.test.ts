@@ -1,4 +1,4 @@
-import { createError, isError } from "@clover/protocol";
+import { createError, isError } from "@clover.js/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -15,7 +15,7 @@ import {
   SliceAsyncErrorCode,
   stopAsyncWhen,
   takeAsync
-} from "@clover/std";
+} from "@clover.js/std";
 
 async function* fromValues<T>(values: readonly T[]): AsyncGenerator<T> {
   for (const value of values) {
@@ -52,7 +52,7 @@ async function collectChunks<T>(source: AsyncIterable<readonly T[]>): Promise<T[
   return chunks;
 }
 
-describe("@clover/std async", () => {
+describe("@clover.js/std async", () => {
   it("collects async values within the configured limit", async () => {
     await expect(collectAsyncLimited(fromValues([1, 2, 3]), 3)).resolves.toEqual([1, 2, 3]);
   });

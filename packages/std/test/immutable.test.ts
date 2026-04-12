@@ -7,9 +7,9 @@ import {
   removeAt,
   replaceAt,
   setRecordField
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std immutable", () => {
+describe("@clover.js/std immutable", () => {
   it("performs immutable array updates", () => {
     const source = [1, 2, 3] as const;
 

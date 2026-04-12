@@ -8,25 +8,25 @@ importers:
 
   .:
     dependencies:
-      '@clover/cli':
+      '@clover.js/cli':
         specifier: workspace:*
         version: link:packages/cli
-      '@clover/eslint-config':
+      '@clover.js/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
-      '@clover/eslint-plugin':
+      '@clover.js/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
-      '@clover/protocol':
+      '@clover.js/protocol':
         specifier: workspace:*
         version: link:packages/protocol
-      '@clover/std':
+      '@clover.js/std':
         specifier: workspace:*
         version: link:packages/std
-      '@clover/tsconfig':
+      '@clover.js/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
-      '@clover/zod':
+      '@clover.js/zod':
         specifier: workspace:*
         version: link:packages/zod
     devDependencies:
@@ -75,19 +75,19 @@ importers:
 
   packages/cli:
     dependencies:
-      '@clover/protocol':
+      '@clover.js/protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@clover/std':
+      '@clover.js/std':
         specifier: workspace:*
         version: link:../std
-      '@clover/zod':
+      '@clover.js/zod':
         specifier: workspace:*
         version: link:../zod
 
   packages/eslint-config:
     dependencies:
-      '@clover/eslint-plugin':
+      '@clover.js/eslint-plugin':
         specifier: workspace:*
         version: link:../eslint-plugin
       '@typescript-eslint/parser':
@@ -100,7 +100,7 @@ importers:
 
   packages/std:
     dependencies:
-      '@clover/protocol':
+      '@clover.js/protocol':
         specifier: workspace:*
         version: link:../protocol
 
@@ -108,10 +108,10 @@ importers:
 
   packages/zod:
     dependencies:
-      '@clover/protocol':
+      '@clover.js/protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@clover/std':
+      '@clover.js/std':
         specifier: workspace:*
         version: link:../std
       zod:

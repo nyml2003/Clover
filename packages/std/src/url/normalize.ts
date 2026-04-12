@@ -1,4 +1,4 @@
-import { None, isError, type Option, type Result } from "@clover/protocol";
+import { None, isError, type Option, type Result } from "@clover.js/protocol";
 
 import { parsePath } from "../path/index.js";
 import {

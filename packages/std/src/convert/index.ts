@@ -3,7 +3,7 @@ import {
   type CloverError,
   type FiniteFloat64,
   type Result
-} from "@clover/protocol";
+} from "@clover.js/protocol";
 
 import { isObjectRecord } from "../guard/index.js";
 

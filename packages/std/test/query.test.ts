@@ -1,4 +1,4 @@
-import { None } from "@clover/protocol";
+import { None } from "@clover.js/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -6,9 +6,9 @@ import {
   getQueryParamValues,
   parseQueryString,
   toQueryRecord
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std query", () => {
+describe("@clover.js/std query", () => {
   it("parses query strings into fixed-shape entries", () => {
     expect(parseQueryString("?a=1&flag&empty=&a=2&&")).toEqual([
       { key: "a", value: "1" },

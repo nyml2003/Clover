@@ -1,4 +1,4 @@
-import { createError, type CloverError, type ErrorPayload, type Result } from "@clover/protocol";
+import { createError, type CloverError, type ErrorPayload, type Result } from "@clover.js/protocol";
 
 export const CollectAsyncLimitedErrorCode = {
   InvalidLimit: 1101,

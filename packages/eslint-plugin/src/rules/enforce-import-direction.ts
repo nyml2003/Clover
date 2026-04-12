@@ -2,11 +2,11 @@ import type { Rule } from "eslint";
 
 const ALLOWED_WORKSPACE_IMPORTS: Record<string, readonly string[]> = {
   protocol: [],
-  std: ["@clover/protocol"],
-  zod: ["@clover/protocol", "@clover/std"],
-  cli: ["@clover/protocol", "@clover/std", "@clover/zod"],
+  std: ["@clover.js/protocol"],
+  zod: ["@clover.js/protocol", "@clover.js/std"],
+  cli: ["@clover.js/protocol", "@clover.js/std", "@clover.js/zod"],
   "eslint-plugin": [],
-  "eslint-config": ["@clover/eslint-plugin"],
+  "eslint-config": ["@clover.js/eslint-plugin"],
   tsconfig: []
 };
 
@@ -35,7 +35,7 @@ export const enforceImportDirection: Rule.RuleModule = {
     }
 
     const allowed = new Set(ALLOWED_WORKSPACE_IMPORTS[packageName] ?? []);
-    allowed.add(`@clover/${packageName}`);
+    allowed.add(`@clover.js/${packageName}`);
 
     return {
       ImportDeclaration(node) {
@@ -44,7 +44,7 @@ export const enforceImportDirection: Rule.RuleModule = {
         }
 
         const source = node.source.value;
-        if (!source.startsWith("@clover/")) {
+        if (!source.startsWith("@clover.js/")) {
           return;
         }
 
@@ -56,7 +56,7 @@ export const enforceImportDirection: Rule.RuleModule = {
           node: node.source,
           messageId: "invalidImport",
           data: {
-            from: `@clover/${packageName}`,
+            from: `@clover.js/${packageName}`,
             source,
             allowed: [...allowed].sort().join(", ") || "(none)"
           }

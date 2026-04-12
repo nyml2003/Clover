@@ -1,4 +1,4 @@
-import { None, createError, type CloverError, type Option, type Result } from "@clover/protocol";
+import { None, createError, type CloverError, type Option, type Result } from "@clover.js/protocol";
 
 import { startsWithAt } from "../string/index.js";
 
@@ -232,9 +232,9 @@ export function separatedList<T, U>(
     if (first === None) {
       return minLength === 0
         ? {
-            value: [],
-            nextIndex: index
-          }
+          value: [],
+          nextIndex: index
+        }
         : None;
     }
 

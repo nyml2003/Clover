@@ -1,4 +1,4 @@
-import { None, isError } from "@clover/protocol";
+import { None, isError } from "@clover.js/protocol";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -9,9 +9,9 @@ import {
   parseQueryString,
   parseUrlParts,
   ParseHostPortErrorCode
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std url", () => {
+describe("@clover.js/std url", () => {
   it("parses host values with and without a port", () => {
     expect(parseHostPort("example.com")).toEqual({
       host: "example.com",

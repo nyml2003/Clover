@@ -1,4 +1,4 @@
-import { isError, type ErrorPayload, type Result } from "@clover/protocol";
+import { isError, type ErrorPayload, type Result } from "@clover.js/protocol";
 
 import type { MapAsyncResultInput } from "./shared.js";
 

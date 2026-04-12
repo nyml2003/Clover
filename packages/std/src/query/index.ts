@@ -1,4 +1,4 @@
-import { None, type Option } from "@clover/protocol";
+import { None, type Option } from "@clover.js/protocol";
 
 import { splitOnce } from "../string/index.js";
 

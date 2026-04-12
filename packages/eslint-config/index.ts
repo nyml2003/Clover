@@ -1,4 +1,4 @@
-import clover from "@clover/eslint-plugin";
+import clover from "@clover.js/eslint-plugin";
 
 import { defineCloverConfig } from "./shared.js";
 

@@ -1,4 +1,4 @@
-import { None, type Option } from "@clover/protocol";
+import { None, type Option } from "@clover.js/protocol";
 
 function toSingleCharCode(value: string): number {
   return value.length === 1 ? value.charCodeAt(0) : -1;

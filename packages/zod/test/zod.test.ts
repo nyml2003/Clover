@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 
-import { None, isError, isNone } from "@clover/protocol";
+import { None, isError, isNone } from "@clover.js/protocol";
 import {
   ZodErrorCode,
   fromSafeParse,
@@ -10,9 +10,9 @@ import {
   parseOptionalWith,
   parseWith,
   unwrapParsedOption
-} from "@clover/zod";
+} from "@clover.js/zod";
 
-describe("@clover/zod", () => {
+describe("@clover.js/zod", () => {
   const HostSchema = z.object({
     host: z.string(),
     port: z.number().int()

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { None } from "@clover/protocol";
+import { None } from "@clover.js/protocol";
 import {
   endsWithAt,
   isAsciiAlphaChar,
@@ -10,9 +10,9 @@ import {
   safeCompareAscii,
   splitOnce,
   startsWithAt
-} from "@clover/std";
+} from "@clover.js/std";
 
-describe("@clover/std string", () => {
+describe("@clover.js/std string", () => {
   it("checks ascii character classes one character at a time", () => {
     expect(isAsciiWhitespaceChar(" ")).toBe(true);
     expect(isAsciiWhitespaceChar("\n")).toBe(true);

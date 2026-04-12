@@ -5,7 +5,7 @@ import {
   type CloverError,
   type Option,
   type Result
-} from "@clover/protocol";
+} from "@clover.js/protocol";
 import type { z } from "zod";
 
 export const ZodErrorCode = {

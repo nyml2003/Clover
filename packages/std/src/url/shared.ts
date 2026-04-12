@@ -1,4 +1,4 @@
-import type { CloverError, Option, Result, SmiInt } from "@clover/protocol";
+import type { CloverError, Option, Result, SmiInt } from "@clover.js/protocol";
 
 import type { ParsedPath } from "../path/index.js";
 import type { QueryParam } from "../query/index.js";

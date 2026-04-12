@@ -33,7 +33,7 @@ function runRule(
   );
 }
 
-describe("@clover/eslint-plugin", () => {
+describe("@clover.js/eslint-plugin", () => {
   it("rejects raw numeric createError codes", () => {
     expect(runRule("no-raw-create-error-code", "createError(1, 'bad');")).toHaveLength(1);
     expect(
@@ -109,21 +109,21 @@ describe("@clover/eslint-plugin", () => {
 
   it("rejects direct zod imports in core packages", () => {
     expect(runRule("no-core-zod-import", "import { z } from 'zod';")).toHaveLength(1);
-    expect(runRule("no-core-zod-import", "import { parseWith } from '@clover/zod';")).toHaveLength(0);
+    expect(runRule("no-core-zod-import", "import { parseWith } from '@clover.js/zod';")).toHaveLength(0);
   });
 
   it("rejects invalid workspace import direction", () => {
     expect(
       runRule(
         "enforce-import-direction",
-        "import { parseWith } from '@clover/zod';",
+        "import { parseWith } from '@clover.js/zod';",
         "/packages/std/src/file.ts"
       )
     ).toHaveLength(1);
     expect(
       runRule(
         "enforce-import-direction",
-        "import { isError } from '@clover/protocol';",
+        "import { isError } from '@clover.js/protocol';",
         "/packages/std/src/file.ts"
       )
     ).toHaveLength(0);

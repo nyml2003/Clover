@@ -1,4 +1,4 @@
-import { None, createError, type CloverError, type Option, type SmiInt } from "@clover/protocol";
+import { None, createError, type CloverError, type Option, type SmiInt } from "@clover.js/protocol";
 
 import {
   AT,
