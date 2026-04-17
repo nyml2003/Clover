@@ -19,19 +19,14 @@
     "@clover.js/zod": "workspace:*"
   },
   "scripts": {
-    "build": "python ./scripts/workflow.py build",
-    "build:legacy": "python ./scripts/workflow.py build",
-    "lint": "pnpm repo:lint",
-    "lint:legacy": "python ./scripts/workflow.py lint",
-    "bench": "python ./scripts/workflow.py bench",
-    "repo": "pnpm exec tsx ./packages/repo-command/src/main.ts",
-    "repo:lint": "pnpm exec tsx ./packages/repo-command/src/main.ts lint",
-    "repo:release-check": "pnpm exec tsx ./packages/repo-command/src/main.ts release-check",
-    "test:system": "python ./scripts/workflow.py test-system",
-    "release:check": "python ./scripts/workflow.py release-check",
-    "typecheck": "python ./scripts/workflow.py typecheck",
-    "test": "python ./scripts/workflow.py test",
-    "test:coverage": "python ./scripts/workflow.py test-coverage"
+    "build": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts build",
+    "lint": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts lint",
+    "bench": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts bench",
+    "test:system": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts test-system",
+    "release:check": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts release-check",
+    "typecheck": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts typecheck",
+    "test": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts test",
+    "test:coverage": "pnpm exec tsx --tsconfig ./scripts/tsconfig.json ./scripts/workflow.ts test-coverage"
   },
   "cloverBuildDefaults": {
     "outfile": "dist/index.js",

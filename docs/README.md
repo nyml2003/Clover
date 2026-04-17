@@ -1,45 +1,29 @@
 # Clover 文档入口
 
-`docs/` 现在收敛为两组文档：
+这套文档只服务当前一个目标：让 Clover 先用于真实业务开发。
 
-- `architecture/`：面向当前仓库现实、问题和演进路线的系统级知识库
-- `foundation/`：面向长期规范和设计基线的基础文档
+现在不先扩产品面。
+先用。
+缺什么补什么。
+补完再回头梳理和收边界。
 
-阅读建议：
+建议按这个顺序读：
 
-1. 先看 `architecture/README.md`
-2. 再看 `foundation/README.md`
+1. [project-direction.md](project-direction.md)
+2. [protocol-refactor.md](protocol-refactor.md)
+3. [code-conventions.md](code-conventions.md)
+4. [development-policy.md](development-policy.md)
+5. [package-policy.md](package-policy.md)
+6. [roadmap.md](roadmap.md)
 
-如果你是维护者，同时看：
+补充：
 
-- `../agent.md`
+- 历史文档已归档到 [legacy/README.md](legacy/README.md)
+- 维护约束仍以 [../agent.md](../agent.md) 为准
 
-## 目录说明
+## 现在这套文档回答什么
 
-### `architecture/`
-
-回答三个问题：
-
-- Clover 想成为什么
-- Clover 现在实际上是什么
-- Clover 接下来应该优先解决什么
-
-入口：
-
-- [architecture/README.md](architecture/README.md)
-
-### `foundation/`
-
-承载较稳定的规范与设计背景材料：
-
-- [foundation/sdk-spec.md](foundation/sdk-spec.md)
-- [foundation/stdlib-spec.md](foundation/stdlib-spec.md)
-- [foundation/v8-design.md](foundation/v8-design.md)
-- [foundation/project-structure.md](foundation/project-structure.md)
-- [foundation/consumption-policy.md](foundation/consumption-policy.md)
-- [foundation/versioning-policy.md](foundation/versioning-policy.md)
-- [foundation/release-checklist.md](foundation/release-checklist.md)
-
-入口：
-
-- [foundation/README.md](foundation/README.md)
+- Clover 现在到底要做什么
+- 这阶段什么该做，什么不该做
+- 哪些包是主线，哪些只是保留资产
+- 后面按什么节奏推进

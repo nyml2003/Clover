@@ -198,7 +198,7 @@ describe("@clover.js/http", () => {
       headers: {},
       cookies: {},
       body: None,
-      context: {}
+      context: emptyHttpRequestContext({})
     });
 
     expect(
@@ -233,7 +233,7 @@ describe("@clover.js/http", () => {
       headers: {},
       cookies: {},
       body: None,
-      context: {}
+      context: emptyHttpRequestContext({})
     });
 
     expect(toHttpQueryInput(request)).toEqual({
@@ -254,7 +254,7 @@ describe("@clover.js/http", () => {
       },
       query: None,
       body: None,
-      context: {}
+      context: emptyHttpRequestContext({})
     });
 
     expect(toHttpHeadersInput(request)).toEqual({
@@ -285,7 +285,7 @@ describe("@clover.js/http", () => {
       body: {
         name: "clover"
       },
-      context: {}
+      context: emptyHttpRequestContext({})
     });
 
     expect(

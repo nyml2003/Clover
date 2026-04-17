@@ -16,11 +16,11 @@
     }
   },
   "scripts": {
-    "build": "python ../../scripts/package_tasks.py build",
-    "lint": "python ../../scripts/package_tasks.py lint",
-    "lint:fix": "python ../../scripts/package_tasks.py lint-fix",
-    "unittest": "python ../../scripts/package_tasks.py unittest",
-    "unittest:coverage": "python ../../scripts/package_tasks.py unittest-coverage",
-    "typecheck": "python ../../scripts/package_tasks.py typecheck"
+    "build": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts build",
+    "lint": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts lint",
+    "lint:fix": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts lint-fix",
+    "unittest": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts unittest",
+    "unittest:coverage": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts unittest-coverage",
+    "typecheck": "pnpm exec tsx --tsconfig ../../scripts/tsconfig.json ../../scripts/package-task.ts typecheck"
   }
 }

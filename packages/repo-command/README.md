@@ -7,6 +7,7 @@
 - 孵化中的场景入口包
 - 当前只服务 Clover 仓库
 - 负责把 `@clover.js/cli` 和 `@clover.js/automation` 装成最小命令入口
+- 当前已经不再作为根级工作流默认入口
 
 这个包负责什么：
 
@@ -41,9 +42,7 @@
 - 目标求解仍交给 `@clover.js/automation`
 - 终端格式化仍建立在 `@clover.js/cli` 的 helper 之上
 
-当前最小入口：
+当前可作为独立实验入口：
 
-- `pnpm repo -- build @clover.js/http`
-- `pnpm repo -- test @clover.js/http`
-- `pnpm repo:lint`
-- `pnpm repo:release-check`
+- `pnpm exec tsx ./packages/repo-command/src/main.ts build @clover.js/http`
+- `pnpm exec tsx ./packages/repo-command/src/main.ts test @clover.js/http`
