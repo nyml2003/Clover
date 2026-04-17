@@ -7,3 +7,4 @@ coverage/
 packages/*/src/**/*.js
 packages/*/src/**/*.d.ts
 *.pyc
+.omx
